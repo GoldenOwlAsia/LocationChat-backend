@@ -1,23 +1,23 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  services:
+    errors:
+      deactivated: "value: '%{value}' has been deactivated"
+      expired_code: "value: '%{value}' has expired"
+      not_eligible_code: "value: '%{value}' is not eligible"
+      invalid_code: "value: '%{value}' is invalid"
+      duplicated_code: "value: '%{value}' is duplicated'"
+      not_allow_promotional: "value: '%{value}' is not applicable for promotional item"
+      invalid_cred: has invalid email/password
+      below_minimum_spending: "value: '%{value}' does not meet minimum spending amount"
+      exceed_usage_limit: "value: '%{value}' has exceeded usage limit"
+      one_per_cart_code: "value: '%{value}' is not combinable with other discounts"
+      not_pending_approval: already exists
+      already_expired: is already expired
+      not_supported: "Currency '%{code}' is not supported"
+      product_exists: already exists
+      not_voucher: is not a voucher
+      already_redeemed: is already redeemed
+      not_redeemable: is not redeemable
+      insufficient_points: has insufficient points
+      insufficient_stock: "%{product_name} has %{count} left in stock"
+      negative_total_value: "Total must be greater than '%{count}'. Please apply discount code before using loyalty point."
