@@ -48,4 +48,25 @@ class Api::V1::BaseController < ApplicationController
     params.require(:data).permit(:type, attributes: args)[:attributes] || {}
   end
 
+  def authenticate_from_token!(resource_klass)
+    auth_token = params[:auth_token].presence || ActionController::HttpAuthentication::Token.token_and_options(request)&.first
+    resource = resource_klass.find_by(auth_token: auth_token)
+
+    if auth_token && resource
+      instance_variable_set("@#{resource_klass.to_s.downcase}", resource)
+    else
+      not_authenticated
+    end
+  end
+
+  def not_found
+    render json: { errors: 'Data not found' }, status: 404
+  end
+
+  def not_authenticated
+    render json: {
+      error_msg: "You're not authenticated/authorized"
+    }, status: 401
+  end
+
 end

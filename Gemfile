@@ -67,3 +67,4 @@ group :test do
   gem 'simplecov', :require=>false
 end
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'fb_graph2'
