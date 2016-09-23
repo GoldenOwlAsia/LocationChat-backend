@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::User::SessionsController, type: :controller do
-  let!(:user) { create(:user, first_name: 'Vinh', 
+  let!(:user) { create(:user, uid: '12345', device_token: 'qwerty', first_name: 'Vinh', 
                             last_name: 'Nguyen',
                             number_phone: '0964153741', 
                             email: 'nguyenhuuvinh2001@gmail.com', 
@@ -21,13 +21,7 @@ RSpec.describe Api::V1::User::SessionsController, type: :controller do
         user.reload
         expect_json({
           success: true,
-          data: { id: user.id, email: user.email, auth_token: user.auth_token, device_token: user.device_token,
-                            first_name: 'Vinh',
-                            last_name: 'Nguyen',
-                            number_phone: '0964153741',
-                            url_image_picture: 'image.png', 
-                            phone_country_code: '+084', 
-                            home_city: 'Ho Chi Minh City' }
+          data: { id: user.id, email: user.email, auth_token: user.auth_token, device_token: user.device_token }
         })
       end
     end
