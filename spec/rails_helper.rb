@@ -8,6 +8,7 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'database_cleaner'
+require 'factory_girl_rails'
 
 SimpleCov.start
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -62,4 +63,15 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ActiveSupport::Testing::TimeHelpers
   config.include Shoulda::Matchers::ActiveModel, type: :service
+
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around(:each) do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
 end

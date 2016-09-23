@@ -1,19 +1,45 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :inet
+#  last_sign_in_ip        :inet
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  name                   :string
+#  auth_token             :string
+#  uid                    :string
+#  device_token           :string
+#  first_name             :string
+#  last_name              :string
+#  number_phone           :string
+#  url_image_picture      :string
+#  phone_country_code     :string
+#  home_city              :string
+#  provider               :string
+#
+
 FactoryGirl.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
+    provider 'facebook'
+    uid { Faker::Number.number(10) }
+    device_token 'qwerty'
     password 'password'
     password_confirmation 'password'
+    auth_token { Faker::Number.hexadecimal(10) }
   end
 
-  trait :blank_email do
-    email ''
-  end
-
-  trait :blank_password do
-    password ''
-  end
-
-  trait :blank_password_confirmation do
-    password_confirmation ''
+  trait :facebook do
+    provider 'facebook'
   end
 end

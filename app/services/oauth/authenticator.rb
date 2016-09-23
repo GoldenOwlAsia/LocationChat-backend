@@ -8,11 +8,11 @@ class Oauth::Authenticator
 
   def initialize(params)
     @params = params
-    @provider = @params[:provider]
+    @provider = @params[:provider].to_s
   end
 
   def call!
-    case @params[:provider]
+    case @provider
     when 'facebook'
       Oauth::FacebookAuthenticator.new(@params).call!
     else

@@ -42,6 +42,12 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     addressable (2.4.0)
+    airborne (0.2.7)
+      activesupport (>= 3.0, < 5.0)
+      rack (< 2.0)
+      rack-test (~> 0.6, >= 0.6.2)
+      rest-client (>= 1.7.3, < 3.0)
+      rspec (~> 3.1)
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
@@ -94,6 +100,8 @@ GEM
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    domain_name (0.5.20160826)
+      unf (>= 0.0.5, < 1.0.0)
     draper (2.1.0)
       actionpack (>= 3.0)
       activemodel (>= 3.0)
@@ -146,6 +154,8 @@ GEM
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
     high_voltage (3.0.0)
+    http-cookie (1.0.2)
+      domain_name (~> 0.5)
     httpclient (2.8.2.4)
     i18n (0.7.0)
     interception (0.5)
@@ -187,6 +197,7 @@ GEM
     multi_json (1.12.1)
     multipart-post (2.0.0)
     nenv (0.3.0)
+    netrc (0.11.0)
     newrelic_rpm (3.16.2.321)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
@@ -263,6 +274,10 @@ GEM
     request_store (1.3.1)
     responders (2.3.0)
       railties (>= 4.2.0, < 5.1)
+    rest-client (2.0.0)
+      http-cookie (>= 1.0.2, < 2.0)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     rollbar (2.13.0)
       multi_json
     rspec (3.5.0)
@@ -345,6 +360,9 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.2)
       execjs (>= 0.3.0, < 3)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.2)
     unicode-display_width (1.1.1)
     unicorn (5.1.0)
       kgio (~> 2.6)
@@ -370,6 +388,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_model_serializers (~> 0.10.0)
+  airborne
   annotate
   better_errors
   binding_of_caller

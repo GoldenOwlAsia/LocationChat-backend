@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 class Api::V1::User::OauthsController < Api::V1::User::BaseController
 
-  skip_before_action :authenticate_User_from_token!
+  skip_before_action :authenticate_user_from_token!
 
   def create
     result = Oauth::LoginService.new(Oauth::Authenticator.new(oauth_params), User, user_params).call

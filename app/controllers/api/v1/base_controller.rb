@@ -51,7 +51,7 @@ class Api::V1::BaseController < ApplicationController
   def authenticate_from_token!(resource_klass)
     auth_token = params[:auth_token].presence || ActionController::HttpAuthentication::Token.token_and_options(request)&.first
     resource = resource_klass.find_by(auth_token: auth_token)
-
+    
     if auth_token && resource
       instance_variable_set("@#{resource_klass.to_s.downcase}", resource)
     else
