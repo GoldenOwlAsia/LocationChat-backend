@@ -30,6 +30,9 @@ This application requires:
 
 Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.html).
 
+Environment variables:
+    CODECLIMATE_REPO_TOKEN=0d4b4a4aa57751f5946ca667680d8f8dba7da8f33586aaa182f94714181d57ba
+
 Getting Started
 ---------------
 
