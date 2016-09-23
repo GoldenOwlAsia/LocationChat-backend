@@ -10,6 +10,24 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
     # it { expect(post(:create)).to have_http_status(401) }
     # it { expect(patch(:update, id: 1)).to have_http_status(401) }
 
+    describe 'GET #check' do
+      before { get :check, profile: params }
+
+      context 'with valid params' do
+        let!(:user) { create :user }
+        let(:params) { {provider: :facebook, uid: user.uid, device_token: user.device_token} }
+
+        it { expect_status 200 }
+        it { expect_json success: true }
+      end
+
+      context 'with invalid params' do
+        let(:params) { {provider: :facebook, uid: '32323', device_token: 'fs f df'} }
+
+        it { expect_status 200 }
+        it { expect_json success: false }
+      end
+    end
   end
 
   context 'when logged in' do
@@ -18,13 +36,13 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
 
     before { sign_in(user) }
 
-    describe 'GET #index' do
+    # describe 'GET #index' do
 
-      before { get :index }
+    #   before { get :index }
 
-      it { expect(response).to have_http_status(200) }
+    #   it { expect_status 200 }
 
-    end
+    # end
 
     describe 'GET #show' do
 
