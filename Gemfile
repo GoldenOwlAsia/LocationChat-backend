@@ -48,7 +48,6 @@ group :development do
   gem 'spring-commands-rspec'
 end
 group :development, :test do
-  gem 'faker'
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
@@ -69,4 +68,5 @@ end
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'fb_graph2'
 
-  gem 'factory_girl_rails', require: false
+gem 'factory_girl_rails', require: false
+gem 'faker', require: false
