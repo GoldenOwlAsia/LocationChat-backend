@@ -64,6 +64,7 @@ group :test do
   gem 'shoulda-matchers'
   gem 'simplecov', :require=>false
   gem 'airborne'
+  gem "codeclimate-test-reporter", require: nil
 end
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'fb_graph2'
