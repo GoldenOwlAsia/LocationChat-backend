@@ -66,34 +66,64 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
 
     end
 
-    # describe 'POST #create' do
+    describe 'POST #create' do
 
-    #   before { post :create, data: data }
+      before { post :create, profile: params }
 
-    #   let(:data) do
-    #     {
-    #       type: 'users',
-    #       attributes: attributes
-    #     }
-    #   end
+      context 'with valid params' do
 
-    #   context 'with valid params' do
+        let(:params) { {email: 'test@example.com', uid: '12345', device_token: 'abcde',
+                                    first_name: 'Vinh',
+                                    last_name: 'Nguyen',
+                                    number_phone: '0964153741',
+                                    url_image_picture: 'image.png', 
+                                    phone_country_code: '+084', 
+                                    home_city: 'Ho Chi Minh City'} }
 
-    #     let(:attributes) { attributes_for(:user) }
+        it { expect_status 201 }
+        it { expect_json({success: true, data: { email: 'test@example.com', auth_token: User.last.auth_token, device_token: 'abcde',
+                            first_name: 'Vinh',
+                            last_name: 'Nguyen',
+                            number_phone: '0964153741',
+                            url_image_picture: 'image.png', 
+                            phone_country_code: '+084', 
+                            home_city: 'Ho Chi Minh City' } })}
 
-    #     it { expect(response).to have_http_status(201) }
+      end
 
-    #   end
+      context 'with invalid params' do
 
-    #   context 'with invalid params' do
+        context 'blank email' do
+          let(:params) { {email: '', uid: '12345', device_token: user.device_token,
+                                      first_name: 'Vinh',
+                                      last_name: 'Nguyen',
+                                      number_phone: '0964153741',
+                                      url_image_picture: 'image.png', 
+                                      phone_country_code: '+084', 
+                                      home_city: 'Ho Chi Minh City'} }
 
-    #     let(:attributes) { attributes_for(:user, :blank_email) }
+          it { expect_status 422 }
+          it { expect_json success: false, error: "Email can't be blank" }
+        end
 
-    #     it { expect(response).to have_http_status(422) }
+        context 'duplicated facebook id' do
+          let!(:another_user) { create :user }
 
-    #   end
+          let(:params) { {email: 'test@example.com', uid: another_user.uid, device_token: user.device_token,
+                                      first_name: 'Vinh',
+                                      last_name: 'Nguyen',
+                                      number_phone: '0964153741',
+                                      url_image_picture: 'image.png', 
+                                      phone_country_code: '+084', 
+                                      home_city: 'Ho Chi Minh City'} }
 
-    # end
+          it { expect_status 422 }
+          it { expect_json success: false, error: 'Uid has already been taken' }
+        end
+
+      end
+
+    end
 
     # describe 'PATCH #update' do
 
