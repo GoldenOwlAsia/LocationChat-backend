@@ -1,4 +1,4 @@
-class Api::V1::User::BaseController < ApplicationController
+class Api::V1::User::BaseController < Api::V1::BaseController
   before_action :authenticate_user_from_token!
 
   def current_user

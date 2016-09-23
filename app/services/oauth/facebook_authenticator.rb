@@ -6,10 +6,10 @@ class Oauth::FacebookAuthenticator < Oauth::Authenticator
   end
 
   def call!
-    auth = FbGraph2::User.new(@auth_params[:uid]).authenticate(@auth_params[:oauth_token])
-    auth.fetch(fields: [:name, :id, :email])
-  rescue FbGraph2::Exception => e
-    raise Oauth::Authenticator::AuthFailure, e.messages
+    user = User.find_by provider: :facebook, uid: @auth_params[:uid], device_token: @auth_params[:device_token]
+    OpenStruct.new id: user.uid, email: user.email, provider: :facebook
+  rescue Exception => e
+    raise Oauth::Authenticator::AuthFailure, e.message
   end
 
 end

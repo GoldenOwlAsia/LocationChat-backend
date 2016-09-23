@@ -48,7 +48,6 @@ group :development do
   gem 'spring-commands-rspec'
 end
 group :development, :test do
-  gem 'factory_girl_rails'
   gem 'faker'
   gem 'pry-rails'
   gem 'pry-rescue'
@@ -65,6 +64,9 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda-matchers'
   gem 'simplecov', :require=>false
+  gem 'airborne'
 end
 gem 'active_model_serializers', '~> 0.10.0'
 gem 'fb_graph2'
+
+  gem 'factory_girl_rails', require: false

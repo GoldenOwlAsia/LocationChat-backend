@@ -16,6 +16,12 @@ Rails.application.routes.draw do
 
       namespace :user do
         resource :oauth, only: [:create]
+        resources :profiles
+        resources :sessions, only: [:create] do
+          collection do
+            delete :destroy
+          end
+        end
       end
     end
   end
