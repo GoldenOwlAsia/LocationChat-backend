@@ -13,4 +13,10 @@ puts 'CREATED ADMIN USER: ' << user.email
 # See http://railsapps.github.io/rails-environment-variables.html
 
 
-FactoryGirl.create_list :user, 10
+users = FactoryGirl.create_list :user, 10
+
+channels = FactoryGirl.create_list :channel, 10
+
+channels.each do |c|
+  c.channel_users.create user_id: users.sample
+end
