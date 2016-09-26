@@ -1,0 +1,26 @@
+class Api::V1::User::ChannelsController < Api::V1::User::BaseController
+  def index
+    @channels = current_user.channels
+
+    if @channels.present?
+      render json: { success: true, data: @channels }
+    else
+      render json: { success: true, data: [] }
+    end
+  end
+
+  def create
+    service = Chat::ChannelService.new create_params[:user_ids], create_params[:twilio_channel_sid]
+    if service.call
+      render json: { success: true }, status: 201
+    else
+      render json: { success: false, error: service.errors.full_messages.last }, status: 422
+    end
+  end
+
+  private
+
+  def create_params
+    params.require(:channel).permit(:twilio_channel_sid, user_ids: [])
+  end
+end

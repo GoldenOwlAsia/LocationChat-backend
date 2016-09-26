@@ -28,6 +28,7 @@ Rails.application.routes.draw do
           end
         end
         resources :tokens, only: [:create]
+        resources :channels
       end
     end
   end
