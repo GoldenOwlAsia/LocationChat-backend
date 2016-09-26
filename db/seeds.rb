@@ -24,6 +24,7 @@ end
 friendships = []
 users.each do |u|
   10.times do
-    friendships << FactoryGirl.create(:friendship, from_user: u, to_user: users.sample)
+    f = FactoryGirl.build(:friendship, from_user: u, to_user: users.sample)
+    friendships << f if f.save
   end
 end
