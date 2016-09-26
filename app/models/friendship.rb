@@ -14,6 +14,5 @@ class Friendship < ActiveRecord::Base
   belongs_to :from_user, class_name: 'User', foreign_key: 'from_user_id'
   belongs_to :to_user, class_name: 'User', foreign_key: 'to_user_id'
 
-  validates_uniqueness_of :to_user_id, :scope => [:from_user_id], message: 'already existed'
-
+  validates_uniqueness_of :to_user_id, scope: [:from_user_id], message: 'already existed'
 end

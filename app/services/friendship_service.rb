@@ -25,5 +25,4 @@ class FriendshipService < BaseService
     errors.add :base, e.message
     return false
   end
-
 end
