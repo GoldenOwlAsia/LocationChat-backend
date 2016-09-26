@@ -37,6 +37,9 @@ class User < ActiveRecord::Base
   has_many :channels, through: :channel_users
   has_many :channel_users, dependent: :destroy
 
+  has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
+  has_many :friends, through: :friendships, source: :to_user
+
   validates :uid, uniqueness: true
 
   def password_required?
