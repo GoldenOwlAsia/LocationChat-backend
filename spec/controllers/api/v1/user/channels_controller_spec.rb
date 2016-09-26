@@ -70,7 +70,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
       context 'with valid params' do
         let(:other_user) { create :user }
-        let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345' } }
+        let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
         it { expect_status 201 }
         it { expect_json({success: true})}
@@ -81,7 +81,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '' } }
 
         it { expect_status 422 }
-        it { expect_json({success: false, error: "Twilio channel sid can't be blank"})}
+        it { expect_json({success: false, error: "Validation failed: Twilio channel sid can't be blank, Friendly name can't be blank"})}
       end
     end
   end
