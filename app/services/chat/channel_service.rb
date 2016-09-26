@@ -12,8 +12,8 @@ module Chat
     end
 
     def call
-      if self.valid?
-        users = User.where(id: @user_ids).map &:id
+      if valid?
+        users = User.where(id: @user_ids).map(&:id)
         ActiveRecord::Base.transaction do
           channel = Channel.new twilio_channel_sid: @twilio_channel_sid
           users.each do |id|
@@ -25,7 +25,7 @@ module Chat
       else
         return false
       end
-    rescue Exception => e
+    rescue StandardError => e
       errors.add :base, e.message
       return false
     end

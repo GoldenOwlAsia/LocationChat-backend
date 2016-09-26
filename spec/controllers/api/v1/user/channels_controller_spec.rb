@@ -81,7 +81,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '' } }
 
         it { expect_status 422 }
-        it { expect_json({success: false})}
+        it { expect_json({success: false, error: "Twilio channel sid can't be blank"})}
       end
     end
   end
