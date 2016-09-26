@@ -1,5 +1,4 @@
 module Chat
-
   class ChannelService < BaseService
     validates :user_ids, presence: true
     validates :twilio_channel_sid, presence: true
