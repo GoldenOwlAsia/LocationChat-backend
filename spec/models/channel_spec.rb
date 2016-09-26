@@ -6,6 +6,7 @@
 #  twilio_channel_sid :string
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  friendly_name      :string
 #
 
 require 'rails_helper'
