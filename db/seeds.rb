@@ -20,3 +20,11 @@ channels = FactoryGirl.create_list :channel, 10
 channels.each do |c|
   c.channel_users.create user_id: users.sample
 end
+
+friendships = []
+users.each do |u|
+  10.times do
+    f = FactoryGirl.build(:friendship, from_user: u, to_user: users.sample)
+    friendships << f if f.save
+  end
+end

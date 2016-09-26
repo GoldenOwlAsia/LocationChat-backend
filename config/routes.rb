@@ -1,4 +1,28 @@
 Rails.application.routes.draw do
+  namespace :api do
+  namespace :v1 do
+    namespace :user do
+      get 'friends/index'
+      end
+    end
+  end
+
+  namespace :api do
+  namespace :v1 do
+    namespace :user do
+      get 'friends/create'
+      end
+    end
+  end
+
+  namespace :api do
+  namespace :v1 do
+    namespace :user do
+      get 'friends/destroy'
+      end
+    end
+  end
+
   root to: 'visitors#index'
   devise_for :users
   resources :users
@@ -29,6 +53,7 @@ Rails.application.routes.draw do
         end
         resources :tokens, only: [:create]
         resources :channels
+        resources :friends
       end
     end
   end
