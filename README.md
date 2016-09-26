@@ -32,6 +32,11 @@ Learn more about [Installing Rails](http://railsapps.github.io/installing-rails.
 
 Environment variables:
     CODECLIMATE_REPO_TOKEN=0d4b4a4aa57751f5946ca667680d8f8dba7da8f33586aaa182f94714181d57ba
+    TWILIO_APP_NAME: ChatBoxApp
+    TWILIO_ACCOUNT_SID: AC6bdd4ebad16baa9259a477cef360e9fc
+    TWILIO_API_KEY: SK4a94ba666830d559e8f1707d3e7aa2c3
+    TWILIO_API_SECRET: GOeVAn3W6uEWb66O2HoUgtKltzff631y
+    TWILIO_SERVICE_SID: IS8b176fa0adb04b919e608593cd3f239e
 
 Getting Started
 ---------------

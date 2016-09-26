@@ -71,3 +71,4 @@ gem 'fb_graph2'
 
 gem 'factory_girl_rails', require: false
 gem 'faker', require: false
+gem 'twilio-ruby', '~> 4.11.1'
