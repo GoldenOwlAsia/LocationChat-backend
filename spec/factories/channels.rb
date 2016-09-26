@@ -12,7 +12,7 @@
 FactoryGirl.define do
   factory :channel do
     twilio_channel_sid "MyString"
-    friendly_name { Faker::Address.street_name }
+    friendly_name 'street name'
   end
 
 end
