@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 class TwilioAuthService < BaseService
-
   validates :device_token, presence: true
   validates :identity_name, presence: true
-
   attr_reader :device_token, :identity_name
-
   def initialize(user_id, device_token)
     @device_token = device_token
     @identity_name = user_id
@@ -38,5 +35,4 @@ class TwilioAuthService < BaseService
   def token_validity
     errors.add(:identity_name, :invalid) unless @device_token.identity_name && ActiveSupport::SecurityUtils.secure_compare(@device_token.identity_name, @identity_name)
   end
-
 end
