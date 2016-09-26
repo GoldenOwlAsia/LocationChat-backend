@@ -34,6 +34,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :channels, through: :channel_users
+  has_many :channel_users, dependent: :destroy
+
   validates :uid, uniqueness: true
 
   def password_required?
