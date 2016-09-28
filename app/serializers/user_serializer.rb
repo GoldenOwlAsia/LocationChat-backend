@@ -17,7 +17,6 @@ class UserSerializer < BaseSerializer
              :longitude,
              :latitude,
              :photos
-
   def photos
     object.photos.map(&:url)
   end

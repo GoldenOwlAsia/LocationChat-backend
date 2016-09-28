@@ -3,5 +3,4 @@ class PhotoSerializer < BaseSerializer
 
   attributes :id,
              :url
-
 end
