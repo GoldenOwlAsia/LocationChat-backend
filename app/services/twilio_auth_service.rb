@@ -10,26 +10,27 @@ class TwilioAuthService < BaseService
 
   def call
     validate
-    token.add_grant grant
-    token.to_jwt
+    generate_token
   end
 
   private
 
   def end_point
-    "#{Rails.application.secrets.twilio_app_name}:#{@identity_name}:#{@device_token}"
+    "TwilioDemoApp:#{@identity_name}:browser"
   end
 
-  def token
-    Twilio::Util::AccessToken.new Rails.application.secrets.twilio_account_sid,
-      Rails.application.secrets.twilio_api_key, Rails.application.secrets.twilio_api_secret, 3600, @identity_name
-  end
+  def generate_token
+    # Twilio::Util::AccessToken.new Rails.application.secrets.twilio_account_sid,
+    #   Rails.application.secrets.twilio_api_key, Rails.application.secrets.twilio_api_secret, 3600, @identity_name
+    token = Twilio::Util::AccessToken.new Rails.application.secrets.twilio_account_sid,
+    Rails.application.secrets.twilio_api_key, Rails.application.secrets.twilio_api_secret, 36_000, @identity_name
 
-  def grant
+    # Create IP Messaging grant for our token
     grant = Twilio::Util::AccessToken::IpMessagingGrant.new
     grant.service_sid = Rails.application.secrets.twilio_service_sid
     grant.endpoint_id = end_point
-    grant
+    token.add_grant grant
+    token.to_jwt
   end
 
   def token_validity

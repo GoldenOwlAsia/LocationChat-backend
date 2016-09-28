@@ -5,7 +5,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def show
-    render json: Api::V1::UserSerializer.new(@user)
+    render json: UserSerializer.new(@user)
   end
 
   def check
@@ -20,7 +20,20 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   def create
     @user = User.new create_profile_params
     if @user.save
-      render json: { success: true, data: Api::V1::UserSerializer.new(@user) }, status: 201
+      render json: { success: true, data: UserSerializer.new(@user) }, status: 201
+    else
+      render json: { success: false, error: @user.errors.full_messages.last }, status: 422
+    end
+  end
+
+  def update
+    @user = current_user
+    update_profile_params[:photos].each do |photo|
+      @user.photos.build photo
+    end if update_profile_params[:photos].present?
+
+    if @user.update update_profile_params.except :photos
+      render json: { success: true, data: UserSerializer.new(@user.reload) }, status: 200
     else
       render json: { success: false, error: @user.errors.full_messages.last }, status: 422
     end
@@ -38,5 +51,9 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
 
   def create_profile_params
     params.require(:profile).permit(:provider, :uid, :device_token, :first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city)
+  end
+
+  def update_profile_params
+    params.require(:profile).permit(:first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city, :location, :latitude, :longitude, photos: [:url])
   end
 end
