@@ -26,6 +26,9 @@
 #  phone_country_code     :string
 #  home_city              :string
 #  provider               :string
+#  location               :string
+#  latitude               :string
+#  longitude              :string
 #
 
 class User < ActiveRecord::Base
@@ -39,8 +42,11 @@ class User < ActiveRecord::Base
 
   has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
   has_many :friends, through: :friendships, source: :to_user
+  has_many :photos, dependent: :destroy
 
   validates :uid, uniqueness: true
+
+  accepts_nested_attributes_for :photos
 
   def password_required?
     false

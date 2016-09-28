@@ -26,6 +26,9 @@
 #  phone_country_code     :string
 #  home_city              :string
 #  provider               :string
+#  location               :string
+#  latitude               :string
+#  longitude              :string
 #
 
 FactoryGirl.define do

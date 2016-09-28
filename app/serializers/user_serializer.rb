@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Api::V1::UserSerializer < Api::V1::BaseSerializer
+class UserSerializer < BaseSerializer
 
   attributes :id,
              :email,
@@ -12,6 +12,13 @@ class Api::V1::UserSerializer < Api::V1::BaseSerializer
              :email,
              :url_image_picture,
              :phone_country_code,
-             :home_city
+             :home_city,
+             :location,
+             :longitude,
+             :latitude,
+             :photos
 
+  def photos
+    object.photos.map(&:url)
+  end
 end
