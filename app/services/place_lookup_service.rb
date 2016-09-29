@@ -13,7 +13,7 @@ class PlaceLookupService < BaseService
     places.each do |p|
       if p.valid?
         p.save!
-        Channel.create! place: p
+        Channel.create! place: p, public: true
         puts "Place #{p.name} saved."
       end
     end

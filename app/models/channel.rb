@@ -8,6 +8,7 @@
 #  updated_at         :datetime         not null
 #  friendly_name      :string
 #  place_id           :integer
+#  public             :boolean
 #
 
 class Channel < ActiveRecord::Base
@@ -17,6 +18,8 @@ class Channel < ActiveRecord::Base
 
   # validates :twilio_channel_sid, presence: true
   # validates :friendly_name, presence: true
+
+  scope :publics, -> { where(public: true)}
 
   def name
     place.name if place
