@@ -28,3 +28,5 @@ users.each do |u|
     friendships << f if f.save
   end
 end
+
+Rake::Task['data:places'].invoke

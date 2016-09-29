@@ -1,5 +1,5 @@
 class Api::V1::BaseController < ApplicationController
-
+  include ActionController::Serialization
   respond_to :json
 
   rescue_from ActiveRecord::RecordNotFound, with: :not_found!

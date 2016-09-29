@@ -74,3 +74,4 @@ gem 'faker', require: false
 gem 'twilio-ruby', '~> 4.11.1'
 
 gem 'activeadmin', github: 'activeadmin'
+gem 'google_places'
