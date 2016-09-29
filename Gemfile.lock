@@ -161,6 +161,8 @@ GEM
     formtastic_i18n (0.6.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    google_places (0.32.0)
+      httparty (~> 0.13.1)
     guard (2.14.0)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
@@ -188,6 +190,9 @@ GEM
     high_voltage (3.0.0)
     http-cookie (1.0.2)
       domain_name (~> 0.5)
+    httparty (0.13.7)
+      json (~> 1.8)
+      multi_xml (>= 0.5.2)
     httpclient (2.8.2.4)
     i18n (0.7.0)
     inherited_resources (1.6.0)
@@ -235,6 +240,7 @@ GEM
     momentjs-rails (2.11.1)
       railties (>= 3.1)
     multi_json (1.12.1)
+    multi_xml (0.5.5)
     multipart-post (2.0.0)
     nenv (0.3.0)
     netrc (0.11.0)
@@ -460,6 +466,7 @@ DEPENDENCIES
   fb_graph2
   figaro
   font-awesome-rails
+  google_places
   guard-bundler
   guard-rails
   guard-rspec
