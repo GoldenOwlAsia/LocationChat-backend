@@ -7,6 +7,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  friendly_name      :string
+#  place_id           :integer
 #
 
 FactoryGirl.define do
