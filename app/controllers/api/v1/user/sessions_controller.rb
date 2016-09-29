@@ -8,7 +8,7 @@ class Api::V1::User::SessionsController < Api::V1::User::BaseController
     result = Oauth::LoginService.new(Oauth::Authenticator.new(sessions_params), User, sessions_params).call
     if result.success?
       @user = result.data || User.new
-      render json: { success: true, data: Api::V1::UserSerializer.new(@user) }
+      render json: { success: true, data: UserSerializer.new(@user) }
     else
       render json: { success: false, error: 'invalid credentials' }, status: 401
     end
