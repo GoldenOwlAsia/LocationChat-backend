@@ -12,8 +12,8 @@ class PlaceLookupService < BaseService
     
     places.each do |p|
       if p.valid?
-        p.channel = Channel.new
         p.save!
+        Channel.create! place: p
         puts "Place #{p.name} saved."
       end
     end

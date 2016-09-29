@@ -1,9 +1,9 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def index
-    @channels = current_user.channels
+    @channels = Channel.all
 
     if @channels.present?
-      render json: { success: true, data: @channels }
+      render json: { success: true, data: @channels.map {|x| ChannelSerializer.new(x)} }
     else
       render json: { success: true, data: [] }
     end
