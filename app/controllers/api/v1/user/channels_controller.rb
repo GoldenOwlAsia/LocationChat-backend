@@ -24,5 +24,4 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def create_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name, user_ids: [])
   end
-
 end
