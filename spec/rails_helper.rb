@@ -10,6 +10,7 @@ require 'shoulda/matchers'
 require 'database_cleaner'
 require 'factory_girl_rails'
 require 'faker'
+I18n.reload!
 
 SimpleCov.start
 # Add additional requires below this line. Rails is not loaded until this point!

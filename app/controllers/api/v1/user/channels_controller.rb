@@ -1,6 +1,6 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def index
-    @channels = Channel.publics
+    @channels = params[:public] ? Channel.publics : current_user.channels
 
     if @channels.present?
       render json: { success: true, data: @channels.map {|x| ChannelSerializer.new(x)} }
@@ -24,4 +24,5 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def create_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name, user_ids: [])
   end
+
 end

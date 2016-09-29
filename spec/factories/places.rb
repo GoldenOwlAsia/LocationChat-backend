@@ -12,8 +12,8 @@
 
 FactoryGirl.define do
   factory :place do
-    name "MyString"
-    longitude 1.5
-    latitude 1.5
+    name { Faker::Address.street_name }
+    longitude { Faker::Address.latitude }
+    latitude { Faker::Address.longitude }
   end
 end
