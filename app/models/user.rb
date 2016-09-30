@@ -54,9 +54,9 @@ class User < ActiveRecord::Base
   end
 
   def setting_save
-    @setting = self.setting
+    @setting = setting
     if @setting.nil?
-      @setting = Setting.new user_id: self.id
+      @setting = Setting.new user_id: id
       @setting.save
     end
   end
