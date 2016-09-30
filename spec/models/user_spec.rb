@@ -34,5 +34,12 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:user) { create(:user) }
+  describe 'initial create' do
+    it 'should have setting' do
+      user.save
+      expect(user.reload.setting).to_not be_nil
+    end
+  end
 end

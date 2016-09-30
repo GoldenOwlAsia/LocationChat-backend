@@ -47,6 +47,14 @@ Rails.application.routes.draw do
             get :check
           end
         end
+        resources :oauth
+        resources :settings, only: [:update, :show] do
+          collection do
+            get :show
+            put :update
+          end
+        end
+
         resources :sessions, only: [:create] do
           collection do
             delete :destroy
