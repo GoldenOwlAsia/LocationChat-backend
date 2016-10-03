@@ -43,13 +43,22 @@ class User < ActiveRecord::Base
   has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
   has_many :friends, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
+  has_one :setting, dependent: :destroy
 
   validates :uid, uniqueness: true
 
   accepts_nested_attributes_for :photos
-
+  after_create :setting_save
   def password_required?
     false
+  end
+
+  def setting_save
+    @setting = setting
+    if @setting.nil?
+      @setting = Setting.new user_id: id
+      @setting.save
+    end
   end
 
 end
