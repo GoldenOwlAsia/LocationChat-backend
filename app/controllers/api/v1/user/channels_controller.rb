@@ -5,7 +5,7 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     @channels = params[:public] ? Channel.publics : current_user.channels
 
     if @channels.present?
-      render json: { success: true, data: @channels.map {|x| ChannelSerializer.new(x)} }
+      render json: { success: true, data: @channels.map { |x| ChannelSerializer.new(x) } }
     else
       render json: { success: true, data: [] }
     end
