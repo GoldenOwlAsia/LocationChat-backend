@@ -8,11 +8,11 @@ class Api::V1::User::Channels::MembersController < Api::V1::User::Channels::Base
     if @channel.channel_users.where(user_id: user.id).count > 0
       render json: { success: true }
     else
-      @channel.users << user
+      @channel.channel_users << ChannelUser.new(user: user)
       if @channel.save
         render json: { success: true }
       else
-        render json: { success: false, error: channel.errors.full_messages.last }, status: 422
+        render json: { success: false, error: @channel.errors.full_messages.last }, status: 422
       end
     end
   end
