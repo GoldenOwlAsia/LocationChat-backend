@@ -26,13 +26,13 @@ RSpec.describe Api::V1::User::SettingsController, type: :controller do
     describe 'PUT #update' do
       before { put :update, id: user.id, setting: params, auth_token: user.auth_token }
       context 'with valid params' do
-        let(:params) { { friend_joins_chat: 0, notify_message_recieved: 1, notify_add_request: 1} }
+        let(:params) { { friend_joins_chat: false, notify_message_recieved: true, notify_add_request: true} }
 
         it { expect_status 200 }
         it { expect_json success: true }
-        it { expect_json({success: true, data: { friend_joins_chat: 0,
-                            notify_message_recieved: 1,
-                            notify_add_request: 1 } })}
+        it { expect_json({success: true, data: { friend_joins_chat: false,
+                            notify_message_recieved: true,
+                            notify_add_request: true } })}
       end
 
     end
