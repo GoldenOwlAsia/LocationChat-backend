@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160929045810) do
+ActiveRecord::Schema.define(version: 20161003045823) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,15 +75,16 @@ ActiveRecord::Schema.define(version: 20160929045810) do
     t.float    "latitude"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "photo_url"
   end
 
   create_table "settings", force: :cascade do |t|
-    t.integer  "friend_joins_chat",       default: 1
-    t.integer  "notify_message_recieved", default: 1
-    t.integer  "notify_add_request",      default: 1
+    t.boolean  "friend_joins_chat",       default: true
+    t.boolean  "notify_message_recieved", default: true
+    t.boolean  "notify_add_request",      default: true
     t.integer  "user_id"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
   end
 
   add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree

@@ -8,6 +8,7 @@
 #  latitude   :float
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  photo_url  :string
 #
 
 require 'rails_helper'
