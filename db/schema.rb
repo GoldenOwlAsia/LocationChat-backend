@@ -77,6 +77,17 @@ ActiveRecord::Schema.define(version: 20160929045810) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "settings", force: :cascade do |t|
+    t.integer  "friend_joins_chat",       default: 1
+    t.integer  "notify_message_recieved", default: 1
+    t.integer  "notify_add_request",      default: 1
+    t.integer  "user_id"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "settings", ["user_id"], name: "index_settings_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -111,4 +122,5 @@ ActiveRecord::Schema.define(version: 20160929045810) do
 
   add_foreign_key "channels", "places"
   add_foreign_key "photos", "users"
+  add_foreign_key "settings", "users"
 end
