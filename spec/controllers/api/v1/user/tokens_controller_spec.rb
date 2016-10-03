@@ -10,7 +10,7 @@ RSpec.describe Api::V1::User::TokensController, type: :controller do
   describe 'POST #create' do
     context 'when params is valid' do
       it { expect_status(200) }
-      it do 
+      it do
         allow_any_instance_of(TwilioAuthService).to receive(:call).and_return('12345')
         post :create, auth_token: user.auth_token, format: :json
         expect_json({success: true, data: {token: '12345'} })

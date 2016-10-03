@@ -1,5 +1,5 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
-  before_action :find_channel, only: [:update, :destroy]
+  before_action :find_channel, only: [:update, :destroy, :show]
 
   def index
     @channels = params[:public] ? Channel.publics : current_user.channels
@@ -29,6 +29,10 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     end
   end
 
+  def show
+    render json: { success: true, data: ChannelSerializer.new(@channel) }
+  end
+
   def destroy
     if @channel.destroy
       render json: { success: true }, status: 200
@@ -50,4 +54,5 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def update_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name)
   end
+
 end

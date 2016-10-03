@@ -60,7 +60,7 @@ Rails.application.routes.draw do
             delete :destroy
           end
         end
-        resources :tokens, only: [:create]
+        resources :tokens, only: [:create, :show]
         resources :channels do
           resources :members, module: 'channels'
           collection do
