@@ -1,4 +1,6 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
+  before_action :find_channel, only: [:destroy]
+
   def index
     @channels = params[:public] ? Channel.publics : current_user.channels
 
@@ -19,9 +21,24 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     end
   end
 
+  def destroy
+   if @channel.destroy
+      render json: { success: true }, status: 200
+    else
+     render json: { success: false }, status: 400
+   end
+  end
+
   private
 
   def create_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name, user_ids: [])
+  end
+  def find_channel
+    @channel = Channel.find find_params[:channel_sid]
+  end
+
+  def find_params
+    params.require(:channel).permit(:channel_sid)
   end
 end

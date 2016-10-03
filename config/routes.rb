@@ -61,7 +61,11 @@ Rails.application.routes.draw do
           end
         end
         resources :tokens, only: [:create]
-        resources :channels
+        resources :channels do
+          collection do
+            delete :destroy
+          end
+        end
         resources :friends
       end
     end
