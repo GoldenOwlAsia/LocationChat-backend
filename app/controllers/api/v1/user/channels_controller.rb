@@ -5,7 +5,7 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     @channels = params[:public] ? Channel.publics : current_user.channels
 
     if @channels.present?
-      render json: { success: true, data: @channels.map {|x| ChannelSerializer.new(x)} }
+      render json: { success: true, data: @channels.map { |x| ChannelSerializer.new(x) } }
     else
       render json: { success: true, data: [] }
     end
@@ -22,11 +22,11 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   end
 
   def destroy
-   if @channel.destroy
+    if @channel.destroy
       render json: { success: true }, status: 200
     else
-     render json: { success: false }, status: 400
-   end
+      render json: { success: false }, status: 400
+    end
   end
 
   private
@@ -34,6 +34,7 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def create_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name, user_ids: [])
   end
+
   def find_channel
     @channel = Channel.find find_params[:channel_sid]
   end
