@@ -28,14 +28,14 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
-            it { expect_json('data.0', {twilio_channel_sid: '12345'}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture }]}) }
           end
           
           context 'with other channels' do
             let(:channels) { create_list :channel, 5, twilio_channel_sid: 'abcde' }
             let!(:channel) { create :channel, twilio_channel_sid: '12345' }
             let!(:channel_user) { create :channel_user, user: user, channel: channel }
-            before { get :index, auth_token: user.auth_token }       
+            before { get :index, auth_token: user.auth_token }
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
