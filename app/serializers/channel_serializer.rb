@@ -12,6 +12,21 @@
 #
 
 class ChannelSerializer < ActiveModel::Serializer
-  attributes :id, :twilio_channel_sid
+  attributes :id, :twilio_channel_sid, :friendly_name, :photo_url
   has_one :place
+  has_many :users
+
+  def users
+    object.users.map do |user|
+      { id: user.id, name: user.name, url_image_picture: user.url_image_picture }
+    end
+  end
+
+  def photo_url
+    if object.public
+      object.place.present? ? object.place.photo_url : nil
+    else
+      object.users.last.url_image_picture if object.users.present?
+    end
+  end
 end

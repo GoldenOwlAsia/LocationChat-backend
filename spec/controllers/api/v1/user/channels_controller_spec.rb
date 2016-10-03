@@ -28,14 +28,14 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
-            it { expect_json('data.0', {twilio_channel_sid: '12345'}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture }]}) }
           end
           
           context 'with other channels' do
             let(:channels) { create_list :channel, 5, twilio_channel_sid: 'abcde' }
             let!(:channel) { create :channel, twilio_channel_sid: '12345' }
             let!(:channel_user) { create :channel_user, user: user, channel: channel }
-            before { get :index, auth_token: user.auth_token }       
+            before { get :index, auth_token: user.auth_token }
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
@@ -92,14 +92,19 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         it { expect_status 201 }
         it { expect_json({success: true})}
       end
+    end
 
-      # context 'with invalid params' do
-      #   let(:other_user) { create :user }
-      #   let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '' } }
+    describe 'PUT #update' do
+      let(:channel) { create :channel }
+      before { put :update, id: channel.id, channel: params, auth_token: user.auth_token, format: :json }
 
-      #   it { expect_status 422 }
-      #   it { expect_json({success: false, error: "Validation failed: Twilio channel sid can't be blank, Friendly name can't be blank"})}
-      # end
+      context 'with valid params' do
+        let(:other_user) { create :user }
+        let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
+
+        it { expect_status 200 }
+        it { expect_json({success: true})}
+      end
     end
   end
 

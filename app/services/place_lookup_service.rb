@@ -11,6 +11,7 @@ class PlaceLookupService < BaseService
     places = parse_spots spots
     
     places.each do |p|
+      puts p.inspect
       if p.valid?
         p.save!
         Channel.create! place: p, public: true
@@ -19,11 +20,17 @@ class PlaceLookupService < BaseService
     end
   end
 
+  def client
+    @client
+  end
+
   private
 
   def parse_spots(spots)
     spots.map do |spot|
-      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat
+      puts spot.inspect
+      photo_url = spot.photos.present? ? spot.photos[0].fetch_url(100) : spot.icon
+      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat, photo_url: photo_url
     end
   end
 end

@@ -1,5 +1,6 @@
 require 'factory_girl_rails'
 require 'faker'
+I18n.reload!
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -30,3 +31,10 @@ users.each do |u|
 end
 
 Rake::Task['data:places'].invoke
+
+public_channels = Channel.where(public: true).to_a
+public_channels.each do |c|
+  users.each do |u|
+    c.channel_users.create user: u
+  end
+end

@@ -36,10 +36,12 @@ FactoryGirl.define do
     sequence(:email) { |n| "user#{n}@example.com" }
     provider 'facebook'
     uid { Faker::Number.number(10) }
+    name { Faker::Name.name }
     device_token 'qwerty'
     password 'password'
     password_confirmation 'password'
     auth_token { Faker::Number.hexadecimal(10) }
+    url_image_picture { Faker::Avatar.image }
   end
 
   trait :facebook do
