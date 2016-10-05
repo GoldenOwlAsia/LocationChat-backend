@@ -74,13 +74,13 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
     describe 'DELETE #destroy' do
 
-      before { delete :destroy, channel: params, auth_token: user.auth_token, format: :json }
+      before { delete :destroy, id: channel.id, auth_token: user.auth_token, format: :json }
       context 'with valid params' do
         let(:channel) { FactoryGirl.create(:channel) }
-        let(:params) { {channel_sid: channel.id} }
 
         it { expect_status(200) }
-
+        it { expect_json({success: true})}
+        it { change{Channel.count}.by 1}
       end
     end
 
