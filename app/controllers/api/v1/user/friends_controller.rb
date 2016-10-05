@@ -14,11 +14,11 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   end
 
   def destroy
-    frienships = Friendship.in_friendship(current_user.id, destroy_params[:user_id]).last
+    frienships = Friendship.in_friendship(current_user.id, destroy_params[:user_id])
     if frienships.destroy_all
       render json: { success: true }, status: 201
     else
-      render json: { success: false, error: service.last_error_message }, status: 422
+      render json: { success: false, error: 'Unable to delete friendship' }, status: 422
     end
   end
 
