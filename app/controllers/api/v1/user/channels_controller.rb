@@ -54,5 +54,4 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   def update_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name)
   end
-
 end
