@@ -56,6 +56,24 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
             it { expect_json('data.0', {place: { id: place.id, name: place.name, longitude: place.longitude, latitude: place.latitude }}) }
           end
         end
+
+        context 'with favorite' do
+          context 'when channel is favorite' do
+            let(:place) { create :place }
+            let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
+            let!(:channel_user) { create :channel_user,is_favorite: true, user: user, channel: channel }
+            before { get :index, auth_token: user.auth_token }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: true}) }
+          end
+
+          context 'when channel is not favorite' do
+            let(:place) { create :place }
+            let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
+            let!(:channel_user) { create :channel_user,is_favorite: false, user: user, channel: channel }
+            before { get :index, auth_token: user.auth_token }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: false}) }
+          end
+        end
       end
     end
 
@@ -67,9 +85,26 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
       context 'with valid id' do
 
         it { expect(response).to have_http_status(200) }
-
+        it { expect_json({success: true, data: {twilio_channel_sid: '12345', is_favorite: false}}) }
       end
+    end
 
+    describe 'GET #check_favorite' do
+      let(:place) { create :place }
+      let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
+      let!(:channel_user) { create :channel_user,is_favorite: false, user: user, channel: channel }
+      before { get :check_favorite, id: channel.id, auth_token: user.auth_token }
+      it { expect_json({success: true})}
+      it { expect(channel_user.reload.is_favorite).to eq true}
+    end
+
+    describe 'GET #uncheck_favorite' do
+      let(:place) { create :place }
+      let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
+      let!(:channel_user) { create :channel_user,is_favorite: true, user: user, channel: channel }
+      before { get :uncheck_favorite, id: channel.id, auth_token: user.auth_token }
+      it { expect_json({success: true})}
+      it { expect(channel_user.reload.is_favorite).to eq false}
     end
 
     describe 'DELETE #destroy' do

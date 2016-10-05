@@ -13,8 +13,24 @@
 
 class ChannelSerializer < ActiveModel::Serializer
   attributes :id, :twilio_channel_sid, :friendly_name, :photo_url
+  attribute :favorite?, key: :is_favorite
   has_one :place
   has_many :users
+
+  def initialize(model, user)
+    super model
+    @user = user
+  end
+
+  def favorite?
+    obj = object.channel_users.where(user_id: @user.id).last if @user.present?
+
+    if obj
+      obj.is_favorite
+    else
+      false
+    end
+  end
 
   def users
     object.users.map do |user|
