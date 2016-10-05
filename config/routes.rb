@@ -67,7 +67,11 @@ Rails.application.routes.draw do
             delete :destroy
           end
         end
-        resources :friends
+        resources :friends do
+          collection do
+            delete :destroy
+          end
+        end
       end
     end
   end

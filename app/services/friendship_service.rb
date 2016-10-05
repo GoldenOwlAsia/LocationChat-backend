@@ -11,12 +11,8 @@ class FriendshipService < BaseService
 
   def call
     if valid?
-      from_user = User.find @from_user_id
-      to_user = User.find @to_user_id
-      ActiveRecord::Base.transaction do
-        from_user.friendships.create! to_user: to_user
-        to_user.friendships.create! to_user: from_user
-      end
+      Friendship.create! from_user_id: @from_user_id, to_user_id: @to_user_id
+      Friendship.create! from_user_id: @to_user_id, to_user_id: @from_user_id
       return true
     else
       return false
