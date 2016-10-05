@@ -47,7 +47,7 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   end
 
   def show
-    render json: { success: true, data: ChannelSerializer.new(@channel) }
+    render json: { success: true, data: ChannelSerializer.new(@channel, current_user) }
   end
 
   def destroy
