@@ -26,7 +26,7 @@ class ChannelSerializer < ActiveModel::Serializer
     obj = object.channel_users.where(user_id: @user.id).last if @user.present?
 
     if obj
-      obj.is_favorite 
+      obj.is_favorite
     else
       false
     end
