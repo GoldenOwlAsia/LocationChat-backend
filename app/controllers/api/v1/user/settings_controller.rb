@@ -10,8 +10,10 @@ class Api::V1::User::SettingsController < Api::V1::User::BaseController
   end
 
   def show
-    render json: SettingSerializer.new(@setting)
+    render json: { success: true, data: SettingSerializer.new(@setting) }
   end
+
+  private
 
   def find_setting
     @setting = current_user.setting
