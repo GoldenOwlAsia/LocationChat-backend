@@ -18,7 +18,10 @@ RSpec.describe Api::V1::User::SettingsController, type: :controller do
         let(:id) { user.id }
 
         it { expect(response).to have_http_status(200) }
-
+        it { expect_json success: true }
+        it { expect_json({success: true, data: { friend_joins_chat: true,
+                            notify_message_recieved: true,
+                            notify_add_request: true } })}
       end
 
     end
