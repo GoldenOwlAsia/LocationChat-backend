@@ -1,5 +1,5 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
-  before_action :find_channel, only: [:update, :destroy]
+  before_action :find_channel, only: [:update, :destroy, :show]
 
   def index
     @channels = params[:public] ? Channel.publics : current_user.channels
@@ -27,6 +27,10 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     else
       render json: { success: false, error: service.errors.full_messages.last }, status: 422
     end
+  end
+
+  def show
+    render json: { success: true, data: ChannelSerializer.new(@channel) }
   end
 
   def destroy

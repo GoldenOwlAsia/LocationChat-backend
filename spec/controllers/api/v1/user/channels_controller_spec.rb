@@ -30,7 +30,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
             it { expect_json({success: true}) }
             it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture }]}) }
           end
-          
+
           context 'with other channels' do
             let(:channels) { create_list :channel, 5, twilio_channel_sid: 'abcde' }
             let!(:channel) { create :channel, twilio_channel_sid: '12345' }
@@ -59,27 +59,30 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
       end
     end
 
-    # describe 'GET #show' do
+    describe 'GET #show' do
 
-    #   before { get :show, id: id, auth_token: user.auth_token, format: :json }
+      let!(:channel) { create :channel, twilio_channel_sid: '12345' }
+      before { get :show, id: channel.id, auth_token: user.auth_token, format: :json }
 
-    #   context 'with valid id' do
+      context 'with valid id' do
 
-    #     let(:id) { user.id }
+        it { expect(response).to have_http_status(200) }
 
-    #     it { expect(response).to have_http_status(200) }
+      end
 
-    #   end
+    end
 
-    #   context 'with invalid id' do
+    describe 'DELETE #destroy' do
 
-    #     let(:id) { '' }
+      before { delete :destroy, id: channel.id, auth_token: user.auth_token, format: :json }
+      context 'with valid params' do
+        let(:channel) { FactoryGirl.create(:channel) }
 
-    #     it { expect(response).to have_http_status(404) }
-
-    #   end
-
-    # end
+        it { expect_status(200) }
+        it { expect_json({success: true})}
+        it { change{Channel.count}.by 1}
+      end
+    end
 
     describe 'POST #create' do
 
