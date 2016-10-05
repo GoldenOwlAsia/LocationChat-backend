@@ -29,8 +29,9 @@ class PlaceLookupService < BaseService
   def parse_spots(spots)
     spots.map do |spot|
       puts spot.inspect
+      # puts "Spot vicinity #{spot.vicinity}"
       photo_url = spot.photos.present? ? spot.photos[0].fetch_url(100) : spot.icon
-      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat, photo_url: photo_url
+      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat, photo_url: photo_url, address: spot.vicinity
     end
   end
 end
