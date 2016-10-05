@@ -1,13 +1,30 @@
 class Api::V1::User::ChannelsController < Api::V1::User::BaseController
-  before_action :find_channel, only: [:update, :destroy, :show]
+  before_action :find_channel, only: [:update, :destroy, :show, :check_favorite, :uncheck_favorite]
 
   def index
     @channels = params[:public] ? Channel.publics : current_user.channels
-
     if @channels.present?
-      render json: { success: true, data: @channels.map { |x| ChannelSerializer.new(x) } }
+      render json: { success: true, data: @channels.map { |x| ChannelSerializer.new(x, current_user) } }
     else
       render json: { success: true, data: [] }
+    end
+  end
+
+  def check_favorite
+    @channel_user = ChannelUser.where(user: current_user, channel: @channel).last
+    if @channel_user.update_attributes(is_favorite: true)
+      render json: { success: true }
+    else
+      render json: { success: false }
+    end
+  end
+
+  def uncheck_favorite
+    @channel_user = ChannelUser.where(user: current_user, channel: @channel).last
+    if @channel_user.update_attributes(is_favorite: false)
+      render json: { success: true }
+    else
+      render json: { success: false }
     end
   end
 

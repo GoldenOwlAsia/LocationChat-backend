@@ -48,6 +48,7 @@ class User < ActiveRecord::Base
   validates :uid, uniqueness: true
 
   accepts_nested_attributes_for :photos
+  accepts_nested_attributes_for :channel_users
   after_create :setting_save
   def password_required?
     false

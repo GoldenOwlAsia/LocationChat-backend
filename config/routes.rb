@@ -66,8 +66,12 @@ Rails.application.routes.draw do
           collection do
             delete :destroy
           end
+          member do
+            get :check_favorite
+            get :uncheck_favorite
+          end
         end
-        resources :friends do
+        resources :friends, only: [:create] do
           collection do
             delete :destroy
           end
