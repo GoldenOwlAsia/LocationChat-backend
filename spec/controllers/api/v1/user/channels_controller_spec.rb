@@ -85,7 +85,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
       context 'with valid id' do
 
         it { expect(response).to have_http_status(200) }
-        it { expect_json({success: true, data: {twilio_channel_sid: '12345', is_favorite: false}}) }
+        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', is_favorite: false}}) }
       end
     end
 
@@ -128,7 +128,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
         it { expect_status 201 }
-        it { expect_json({success: true})}
+        it { expect_json({success: true, data: {twilio_channel_sid: '12345', friendly_name: 'abcde'}}) }
       end
     end
 
@@ -141,7 +141,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
         it { expect_status 200 }
-        it { expect_json({success: true})}
+        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', friendly_name: 'abcde'}}) }
       end
     end
   end
