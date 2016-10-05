@@ -34,8 +34,9 @@ ActiveRecord::Schema.define(version: 20161005094326) do
   create_table "channel_users", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "channel_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.boolean  "is_favorite", default: false
   end
 
   create_table "channels", force: :cascade do |t|
