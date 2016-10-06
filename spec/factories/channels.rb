@@ -15,6 +15,7 @@ FactoryGirl.define do
   factory :channel do
     twilio_channel_sid { Faker::Number.number(10) }
     friendly_name { Faker::Address.street_name }
+    place
   end
 
 end

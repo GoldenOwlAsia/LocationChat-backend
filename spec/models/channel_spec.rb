@@ -23,4 +23,24 @@ RSpec.describe Channel, type: :model do
       it { change{ChannelUser.count}.by -1 }
     end
   end
+
+  describe "within_radius" do
+    context 'out of range' do
+      it "does not return places" do
+        place = create :place
+        channel = create :channel, place: place
+        result = Channel.within_radius(place.latitude + 5, place.longitude + 5)
+        expect(result).to eq []
+      end
+    end
+
+    context 'within range' do
+      it "returns places" do
+        place = create :place
+        channel = create :channel, place: place
+        result = Channel.within_radius(place.latitude, place.longitude).to_a
+        expect(result).to eq [channel]
+      end
+    end
+  end
 end

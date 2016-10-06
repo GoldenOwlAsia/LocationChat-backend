@@ -20,6 +20,7 @@ class Channel < ActiveRecord::Base
   # validates :friendly_name, presence: true
 
   scope :publics, -> { where(public: true)}
+  scope :within_radius, ->(latitude, longitude) { where(place_id: Place.within_radius(latitude, longitude)) }
 
   def name
     place.name if place
