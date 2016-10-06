@@ -46,6 +46,11 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
             get :index, auth_token: user.auth_token, page: 0
             expect_json_sizes(data: 10)
           end
+
+          it "return correct total" do
+            get :index, auth_token: user.auth_token, page: 0
+            expect_json(total: 20)
+          end
         end
       end
     end
