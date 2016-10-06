@@ -29,6 +29,29 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
           it { expect_json({success: true}) }
           it { expect_json('data.0', {email: another_user.email}) }
         end
+
+        context 'pagination' do
+          before do
+            users = create_list :user, 20
+            users.each do |u|
+              create :friendship, from_user: user, to_user: u
+            end
+          end
+          it "return correct number of items" do
+            get :index, auth_token: user.auth_token, page: 0, limit: 2
+            expect_json_sizes(data: 2)
+          end
+
+          it "return default number of items" do
+            get :index, auth_token: user.auth_token, page: 0
+            expect_json_sizes(data: 10)
+          end
+
+          it "return correct total" do
+            get :index, auth_token: user.auth_token, page: 0
+            expect_json(total: 20)
+          end
+        end
       end
     end
 
