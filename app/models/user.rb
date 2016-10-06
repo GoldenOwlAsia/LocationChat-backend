@@ -62,5 +62,4 @@ class User < ActiveRecord::Base
       @setting.save
     end
   end
-
 end
