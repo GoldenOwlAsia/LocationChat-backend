@@ -71,7 +71,7 @@ Rails.application.routes.draw do
             get :uncheck_favorite
           end
         end
-        resources :friends, only: [:create] do
+        resources :friends, only: [:index, :create] do
           collection do
             delete :destroy
           end
