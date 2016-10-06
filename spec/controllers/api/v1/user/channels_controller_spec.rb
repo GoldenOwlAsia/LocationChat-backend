@@ -63,7 +63,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
             let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
             let!(:channel_user) { create :channel_user,is_favorite: true, user: user, channel: channel }
             before { get :index, auth_token: user.auth_token }
-            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: true}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: true, place: { id: place.id, name: place.name, longitude: place.longitude, latitude: place.latitude }}) }
           end
 
           context 'when channel is not favorite' do
@@ -71,21 +71,21 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
             let!(:channel) { create :channel, twilio_channel_sid: '12345', public: true, place: place.reload }
             let!(:channel_user) { create :channel_user,is_favorite: false, user: user, channel: channel }
             before { get :index, auth_token: user.auth_token }
-            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: false}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', is_favorite: false, place: { id: place.id, name: place.name, longitude: place.longitude, latitude: place.latitude }}) }
           end
         end
       end
     end
 
     describe 'GET #show' do
-
-      let!(:channel) { create :channel, twilio_channel_sid: '12345' }
+      let(:place) { create :place }
+      let!(:channel) { create :channel, twilio_channel_sid: '12345', place: place.reload  }
       before { get :show, id: channel.id, auth_token: user.auth_token, format: :json }
 
       context 'with valid id' do
 
         it { expect(response).to have_http_status(200) }
-        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', is_favorite: false}}) }
+        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', is_favorite: false, place: { id: place.id, name: place.name, longitude: place.longitude, latitude: place.latitude }}}) }
       end
     end
 
@@ -128,7 +128,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
         it { expect_status 201 }
-        it { expect_json({success: true, data: {twilio_channel_sid: '12345', friendly_name: 'abcde'}}) }
+        it { expect_json({success: true, data: {twilio_channel_sid: '12345', friendly_name: 'abcde' }}) }
       end
     end
 
@@ -141,7 +141,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
         let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
         it { expect_status 200 }
-        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', friendly_name: 'abcde'}}) }
+        it { expect_json({success: true, data: {id: channel.id, twilio_channel_sid: '12345', friendly_name: 'abcde' }}) }
       end
     end
   end
