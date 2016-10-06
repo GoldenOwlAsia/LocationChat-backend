@@ -26,5 +26,18 @@ index do
   actions
 end
 
+show title: :name do |emp|
+  attributes_table do
+    columns_to_exclude = ['photo_url' ]
+    (Place.column_names - columns_to_exclude).each do |c|
+      row c.to_sym
+    end
+    
+    row 'Photo' do |e|
+       raw "<img src='#{e.photo_url}'/>"
+    end
+  end
+end
+
 
 end
