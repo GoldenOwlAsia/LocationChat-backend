@@ -159,6 +159,10 @@ GEM
     formtastic (3.1.4)
       actionpack (>= 3.2.13)
     formtastic_i18n (0.6.0)
+    geokit (1.10.0)
+    geokit-rails (2.2.0)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
     google_places (0.32.0)
@@ -466,6 +470,7 @@ DEPENDENCIES
   fb_graph2
   figaro
   font-awesome-rails
+  geokit-rails
   google_places
   guard-bundler
   guard-rails

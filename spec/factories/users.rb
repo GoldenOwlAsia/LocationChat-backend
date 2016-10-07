@@ -42,6 +42,8 @@ FactoryGirl.define do
     password_confirmation 'password'
     auth_token { Faker::Number.hexadecimal(10) }
     url_image_picture { Faker::Avatar.image }
+    longitude { Faker::Address.latitude }
+    latitude { Faker::Address.longitude }
   end
 
   trait :facebook do

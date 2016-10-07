@@ -116,8 +116,8 @@ ActiveRecord::Schema.define(version: 20161005094326) do
     t.string   "home_city"
     t.string   "provider"
     t.string   "location"
-    t.string   "latitude"
-    t.string   "longitude"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
