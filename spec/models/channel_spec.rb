@@ -36,9 +36,11 @@ RSpec.describe Channel, type: :model do
 
     context 'within range' do
       it "returns places" do
-        place = create :place
+        latitude = 10
+        longitude = 100
+        place = create :place, latitude: latitude, longitude: longitude
         channel = create :channel, place: place
-        result = Channel.within_radius(place.latitude, place.longitude).to_a
+        result = Channel.within_radius(latitude, longitude).to_a
         expect(result).to eq [channel]
       end
     end

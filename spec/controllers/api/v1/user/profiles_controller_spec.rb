@@ -136,8 +136,8 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                             phone_country_code: '+084', 
                             home_city: 'Ho Chi Minh City',
                             location: 'singapore',
-                            latitude: '51.5032520',
-                            longitude: '-0.1278990',
+                            latitude: 51.503252,
+                            longitude: -0.127899,
                             photos: ['abc.jpg', 'xyz.png'] } })}
       end
 
