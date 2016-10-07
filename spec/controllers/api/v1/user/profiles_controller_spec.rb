@@ -45,7 +45,14 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
         let(:id) { user.id }
 
         it { expect(response).to have_http_status(200) }
-
+        it { expect_json({success: true, data: { email: user.email, auth_token: user.reload.auth_token, device_token: user.device_token,
+                            first_name: user.first_name,
+                            last_name: user.last_name,
+                            number_phone: user.number_phone,
+                            url_image_picture: user.url_image_picture, 
+                            phone_country_code: user.phone_country_code,
+                            last_sign_in_at: user.last_sign_in_at,
+                            home_city: user.home_city } })}
       end
 
       context 'with invalid id' do

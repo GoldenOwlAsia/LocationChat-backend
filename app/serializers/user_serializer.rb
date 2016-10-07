@@ -48,6 +48,7 @@ class UserSerializer < BaseSerializer
              :location,
              :longitude,
              :latitude,
+             :last_sign_in_at,
              :photos
   def photos
     object.photos.map(&:url)
