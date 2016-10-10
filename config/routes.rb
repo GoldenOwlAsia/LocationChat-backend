@@ -74,6 +74,8 @@ Rails.application.routes.draw do
         resources :friends, only: [:index, :create] do
           collection do
             delete :destroy
+            post :send_add_friend
+            post :accept_add_friend
           end
         end
       end

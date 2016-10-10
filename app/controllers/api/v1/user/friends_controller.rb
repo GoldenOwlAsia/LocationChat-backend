@@ -23,9 +23,31 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     end
   end
 
+  def send_add_friend
+    service = FriendshipService.new current_user.id, status_params[:to_user_id]
+    if service.send_request
+      render json: { success: true }, status: 201
+    else
+      render json: { success: false, error: service.last_error_message }, status: 422
+    end
+  end
+
+  def accept_add_friend
+    service = FriendshipService.new current_user.id, status_params[:to_user_id]
+    if service.accept_request
+      render json: { success: true }, status: 201
+    else
+      render json: { success: false, error: service.last_error_message }, status: 422
+    end
+  end
+
   private
 
   def create_params
+    params.require(:friendship).permit(:to_user_id)
+  end
+
+  def status_params
     params.require(:friendship).permit(:to_user_id)
   end
 
