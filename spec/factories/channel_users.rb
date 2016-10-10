@@ -12,6 +12,7 @@
 
 FactoryGirl.define do
   factory :channel_user do
+    is_favorite { [true, false].sample }
     user
     channel
   end
