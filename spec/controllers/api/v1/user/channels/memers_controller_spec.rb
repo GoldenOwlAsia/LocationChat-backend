@@ -42,28 +42,41 @@ RSpec.describe Api::V1::User::Channels::MembersController, type: :controller do
         let(:other_user) { create :user }
         let!(:channel_user) { create :channel_user, user: other_user, channel: channel }
         let(:user_id) { other_user.id }
+        let!(:count) { ChannelUser.count }
 
         it { expect_status 200 }
         it { expect_json({success: true}) }
-        it { change{ChannelUser.count}.by(0) }
+        it { expect(ChannelUser.count).to eq count }
       end
     end
 
     describe 'DELETE #destroy' do
-      before { delete :destroy, auth_token: user.auth_token, channel_id: channel.id, id: user_id }
-
       context 'when destroy a non-existing member' do
         let(:user_id) { 100 }
+
+        before { delete :destroy, auth_token: user.auth_token, channel_id: channel.id, user_id: user_id }
+
         it { expect_status 200 }
         it { expect_json({success: true}) }
       end
+
       context 'when destroy a member' do
         let(:other_user) { create :user }
         let!(:channel_user) { create :channel_user, user: other_user, channel: channel }
         let(:user_id) { other_user.id }
+        let!(:count) { ChannelUser.count }
 
-        it { expect_status 200 }
-        it { expect_json({success: true}) }
+        it "executes successful" do
+          delete :destroy, auth_token: user.auth_token, channel_id: channel.id, user_id: user_id
+          expect_status 200
+          expect_json({success: true})
+        end
+
+        it "removes user from channel" do 
+          expect {
+            delete :destroy, auth_token: user.auth_token, channel_id: channel.id, user_id: user_id
+          }.to change{ChannelUser.count}.by -1
+        end
       end
     end
   end

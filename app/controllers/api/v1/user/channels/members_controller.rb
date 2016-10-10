@@ -18,7 +18,7 @@ class Api::V1::User::Channels::MembersController < Api::V1::User::Channels::Base
   end
 
   def destroy
-    channel_user = @channel.channel_users.where(id: params[:user_id]).last
+    channel_user = @channel.channel_users.where(user_id: params[:user_id]).last
     channel_user.destroy if channel_user.present?
     render json: { success: true }
   end
