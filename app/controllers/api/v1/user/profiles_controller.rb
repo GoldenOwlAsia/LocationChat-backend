@@ -5,7 +5,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def show
-    render json: UserSerializer.new(@user)
+    render json: { success: true, data: UserSerializer.new(@user) }
   end
 
   def check
