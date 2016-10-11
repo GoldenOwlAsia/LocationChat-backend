@@ -27,8 +27,8 @@
 #  home_city              :string
 #  provider               :string
 #  location               :string
-#  latitude               :string
-#  longitude              :string
+#  latitude               :float
+#  longitude              :float
 #
 
 require 'rails_helper'
@@ -36,6 +36,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   let(:user) { create(:user) }
+  it { expect(user.valid?).to eq true }
+  it { expect(user.name).to eq "#{user.first_name} #{user.last_name}"}
   describe 'initial create' do
     it 'should have setting' do
       user.save

@@ -8,7 +8,7 @@
 #  updated_at         :datetime         not null
 #  friendly_name      :string
 #  place_id           :integer
-#  public             :boolean
+#  public             :boolean          default(FALSE)
 #
 
 class Channel < ActiveRecord::Base
@@ -20,6 +20,7 @@ class Channel < ActiveRecord::Base
   # validates :friendly_name, presence: true
 
   scope :publics, -> { where(public: true)}
+  scope :privates, -> { where(public: false) }
   scope :within_radius, ->(latitude, longitude) { where(place_id: Place.within_radius(latitude, longitude)) }
 
   def name

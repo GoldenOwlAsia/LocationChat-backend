@@ -46,6 +46,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
 
         it { expect(response).to have_http_status(200) }
         it { expect_json({success: true, data: { email: user.email, auth_token: user.reload.auth_token, device_token: user.device_token,
+                            name: "#{user.first_name} #{user.last_name}",
                             first_name: user.first_name,
                             last_name: user.last_name,
                             number_phone: user.number_phone,
@@ -77,7 +78,8 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                                     number_phone: '0964153741',
                                     url_image_picture: 'image.png', 
                                     phone_country_code: '+084', 
-                                    home_city: 'Ho Chi Minh City'} }
+                                    home_city: 'Ho Chi Minh City',
+                                    photos: ['abc.jpg', 'xyz.png']} }
 
         it { expect_status 201 }
         it { expect_json({success: true, data: { email: 'test@example.com', auth_token: User.last.auth_token, device_token: 'abcde',
@@ -86,7 +88,8 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                             number_phone: '0964153741',
                             url_image_picture: 'image.png', 
                             phone_country_code: '+084', 
-                            home_city: 'Ho Chi Minh City' } })}
+                            home_city: 'Ho Chi Minh City',
+                            photos: ['abc.jpg', 'xyz.png']} })}
 
       end
 
@@ -129,7 +132,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
       context 'with valid params' do
         let(:params) { { first_name: 'Vinh', last_name: 'Nguyen', number_phone: '12345', email: 'test@example.com', url_image_picture: 'image.png', phone_country_code: '+084', 
                             home_city: 'Ho Chi Minh City', location: 'singapore', latitude: '51.5032520', longitude: '-0.1278990',
-                            photos: [{url: 'abc.jpg'}, {url: 'xyz.png'}] } }
+                            photos: ['abc.jpg', 'xyz.png'] } }
 
         it { expect_status 200 }
         it { expect_json success: true }

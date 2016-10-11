@@ -27,8 +27,8 @@
 #  home_city              :string
 #  provider               :string
 #  location               :string
-#  latitude               :string
-#  longitude              :string
+#  latitude               :float
+#  longitude              :float
 #
 
 class User < ActiveRecord::Base
@@ -62,5 +62,9 @@ class User < ActiveRecord::Base
       @setting = Setting.new user_id: id
       @setting.save
     end
+  end
+
+  def name
+    [first_name, last_name].compact.join(' ')
   end
 end

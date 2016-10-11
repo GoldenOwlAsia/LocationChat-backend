@@ -8,7 +8,7 @@
 #  updated_at         :datetime         not null
 #  friendly_name      :string
 #  place_id           :integer
-#  public             :boolean
+#  public             :boolean          default(FALSE)
 #
 
 class ChannelSerializer < ActiveModel::Serializer
@@ -34,7 +34,7 @@ class ChannelSerializer < ActiveModel::Serializer
 
   def users
     object.users.map do |user|
-      { id: user.id, name: user.name, url_image_picture: user.url_image_picture }
+      { id: user.id, name: user.name, url_image_picture: user.url_image_picture, location: user.location }
     end
   end
 

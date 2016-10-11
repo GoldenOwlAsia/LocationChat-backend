@@ -28,8 +28,8 @@
 #  home_city              :string
 #  provider               :string
 #  location               :string
-#  latitude               :string
-#  longitude              :string
+#  latitude               :float
+#  longitude              :float
 #
 
 class UserSerializer < BaseSerializer

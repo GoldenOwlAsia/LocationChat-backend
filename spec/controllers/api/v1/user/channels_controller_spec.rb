@@ -28,7 +28,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
-            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture }]}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture, location: user.location }]}) }
           end
 
           context 'with other channels' do
@@ -109,13 +109,20 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
     describe 'DELETE #destroy' do
 
-      before { delete :destroy, id: channel.id, auth_token: user.auth_token, format: :json }
       context 'with valid params' do
-        let(:channel) { FactoryGirl.create(:channel) }
+        let!(:channel) { FactoryGirl.create(:channel) }
 
-        it { expect_status(200) }
-        it { expect_json({success: true})}
-        it { change{Channel.count}.by 1}
+        it "execute successful" do
+          delete :destroy, id: channel.id, auth_token: user.auth_token, format: :json
+          expect_status(200)
+          expect_json({success: true})
+        end
+
+        it "decreases channel count" do
+          expect {
+            delete :destroy, id: channel.id, auth_token: user.auth_token, format: :json
+          }.to change{Channel.count}.by -1
+        end
       end
     end
 

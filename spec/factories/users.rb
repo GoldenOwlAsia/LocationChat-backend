@@ -27,16 +27,17 @@
 #  home_city              :string
 #  provider               :string
 #  location               :string
-#  latitude               :string
-#  longitude              :string
+#  latitude               :float
+#  longitude              :float
 #
 
 FactoryGirl.define do
   factory :user do
     sequence(:email) { |n| "user#{n}@example.com" }
     provider 'facebook'
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
     uid { Faker::Number.number(10) }
-    name { Faker::Name.name }
     device_token 'qwerty'
     password 'password'
     password_confirmation 'password'
@@ -44,6 +45,15 @@ FactoryGirl.define do
     url_image_picture { Faker::Avatar.image }
     longitude { Faker::Address.latitude }
     latitude { Faker::Address.longitude }
+    factory :with_photos do
+      transient do
+        photos_count 5
+      end
+
+      after(:create) do |user, evaluator|
+        create_list(:photo, evaluator.photos_count, user: user)
+      end
+    end
   end
 
   trait :facebook do
