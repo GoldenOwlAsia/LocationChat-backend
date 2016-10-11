@@ -8,6 +8,7 @@ class ChannelService
   def call
     case @type
     when Constants::ChannelTypes::DIRECTORY
+      # binding.pry
       directory_channels
     when Constants::ChannelTypes::DIRECT
       direct_channels
