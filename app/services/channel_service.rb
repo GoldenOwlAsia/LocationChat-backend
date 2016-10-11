@@ -2,14 +2,14 @@ class ChannelService
   
   def initialize(user, type = nil)
     @user = user
-    @type = type || 'all'
+    @type = type || Constants::ChannelTypes::ALL
   end
 
   def call
     case @type
-    when 'directory'
+    when Constants::ChannelTypes::DIRECTORY
       directory_channels
-    when 'direct'
+    when Constants::ChannelTypes::DIRECT
       direct_channels
     else
       all_channels
@@ -21,8 +21,7 @@ class ChannelService
   end
 
   def direct_channels
-    # binding.pry
-    @user.channels.where(public: false)
+    @user.channels.privates
   end
 
   def all_channels
