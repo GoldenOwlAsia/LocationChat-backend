@@ -16,10 +16,11 @@ puts 'CREATED ADMIN USER: ' << user.email
 
 users = FactoryGirl.create_list :user, 10
 
-channels = FactoryGirl.create_list :channel, 10
 
-channels.each do |c|
-  c.channel_users.create user_id: users.sample
+users.each do |user|
+  c = FactoryGirl.create :channel
+  c.channel_users.create user: user
+  c.channel_users.create user_id: users.select {|x| x.id != user.id}.sample
 end
 
 friendships = []
