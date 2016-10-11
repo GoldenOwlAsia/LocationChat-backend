@@ -43,10 +43,6 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
 
   private
 
-  def create_params
-    params.require(:friendship).permit(:to_user_id)
-  end
-
   def status_params
     params.require(:friendship).permit(:to_user_id)
   end
