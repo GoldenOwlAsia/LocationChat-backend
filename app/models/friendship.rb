@@ -12,5 +12,4 @@
 
 class Friendship < ActiveRecord::Base
   include Publish
-
 end
