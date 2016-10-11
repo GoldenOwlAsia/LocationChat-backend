@@ -28,7 +28,7 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
             it { expect_status 200 }
             it { expect_json({success: true}) }
-            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture }]}) }
+            it { expect_json('data.0', {twilio_channel_sid: '12345', users: [{ id: user.id, name: user.name, url_image_picture: user.url_image_picture, location: user.location }]}) }
           end
 
           context 'with other channels' do

@@ -34,7 +34,7 @@ class ChannelSerializer < ActiveModel::Serializer
 
   def users
     object.users.map do |user|
-      UserSerializer.new user
+      { id: user.id, name: user.name, url_image_picture: user.url_image_picture, location: user.location }
     end
   end
 

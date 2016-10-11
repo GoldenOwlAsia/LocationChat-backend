@@ -1,8 +1,8 @@
 class ChannelService
   
-  def initialize(user, type)
+  def initialize(user, type = nil)
     @user = user
-    @type = type
+    @type = type || 'all'
   end
 
   def call
@@ -21,10 +21,11 @@ class ChannelService
   end
 
   def direct_channels
-     @user.channels.where(place: nil)
+    # binding.pry
+    @user.channels.where(public: false)
   end
 
   def all_channels
-    direct_channels + directory_channels
+    @user.channels
   end
 end
