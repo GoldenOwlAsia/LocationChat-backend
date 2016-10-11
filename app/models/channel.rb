@@ -8,7 +8,7 @@
 #  updated_at         :datetime         not null
 #  friendly_name      :string
 #  place_id           :integer
-#  public             :boolean
+#  public             :boolean          default(FALSE)
 #
 
 class Channel < ActiveRecord::Base

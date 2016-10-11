@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005094326) do
+ActiveRecord::Schema.define(version: 20161011092514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,11 @@ ActiveRecord::Schema.define(version: 20161005094326) do
 
   create_table "channels", force: :cascade do |t|
     t.string   "twilio_channel_sid"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "friendly_name"
     t.integer  "place_id"
-    t.boolean  "public"
+    t.boolean  "public",             default: false
   end
 
   add_index "channels", ["place_id"], name: "index_channels_on_place_id", using: :btree

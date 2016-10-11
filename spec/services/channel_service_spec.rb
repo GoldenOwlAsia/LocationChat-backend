@@ -10,13 +10,13 @@ RSpec.describe ChannelService do
     let!(:channel2) { create :channel, :directory, user: user }
     let!(:channel3) { create :channel, :direct, user: user }
     it "returns direct channel" do
-      service = ChannelService.new user, 'direct'
+      service = ChannelService.new user, Constants::ChannelTypes::DIRECT
       channels = service.call
       expect(channels).to match [channel1, channel3]
     end
     
     it "return directory channels only" do
-      service = ChannelService.new user, 'directory'
+      service = ChannelService.new user, Constants::ChannelTypes::DIRECTORY
       channels = service.call
       expect(channels).to match [channel2]
     end
