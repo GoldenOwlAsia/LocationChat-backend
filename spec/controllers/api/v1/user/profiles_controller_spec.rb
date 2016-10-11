@@ -46,6 +46,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
 
         it { expect(response).to have_http_status(200) }
         it { expect_json({success: true, data: { email: user.email, auth_token: user.reload.auth_token, device_token: user.device_token,
+                            name: "#{user.first_name} #{user.last_name}",
                             first_name: user.first_name,
                             last_name: user.last_name,
                             number_phone: user.number_phone,

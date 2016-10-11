@@ -62,4 +62,8 @@ class User < ActiveRecord::Base
       @setting.save
     end
   end
+
+  def name
+    [first_name, last_name].join(' ')
+  end
 end
