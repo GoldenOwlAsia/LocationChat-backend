@@ -80,6 +80,7 @@ Rails.application.routes.draw do
             delete :destroy
             post :send_add_friend
             post :accept_add_friend
+            post :reject_add_friend
           end
         end
       end

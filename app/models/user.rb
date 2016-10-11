@@ -44,13 +44,14 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
   has_one :setting, dependent: :destroy
+  has_many :friend_requests, dependent: :destroy
 
   validates :uid, uniqueness: true
 
   accepts_nested_attributes_for :photos
   accepts_nested_attributes_for :channel_users
   after_create :setting_save
-  
+
   def password_required?
     false
   end
