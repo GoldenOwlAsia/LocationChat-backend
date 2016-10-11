@@ -4,4 +4,10 @@ module Constants
     'hochiminhcity' => { lat: 10.762622, lng: 106.660172 }
   }
   PLACES_RADIUS = 10000
+
+  module ChannelTypes
+    DIRECTORY = 'directory'
+    DIRECT = 'direct'
+    ALL = 'all'
+  end
 end

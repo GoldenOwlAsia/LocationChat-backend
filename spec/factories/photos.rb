@@ -11,7 +11,7 @@
 
 FactoryGirl.define do
   factory :photo do
-    url "MyString"
+    url { Faker::Avatar.image }
     user nil
   end
 end
