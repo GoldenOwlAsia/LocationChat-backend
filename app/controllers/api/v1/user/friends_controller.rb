@@ -5,15 +5,6 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     render json: { success: true, data: @friends, total: @total_count }
   end
 
-  def create
-    service = FriendshipService.new current_user.id, create_params[:to_user_id]
-    if service.call
-      render json: { success: true }, status: 201
-    else
-      render json: { success: false, error: service.last_error_message }, status: 422
-    end
-  end
-
   def destroy
     frienships = Friendship.in_friendship(current_user.id, destroy_params[:user_id])
     if frienships.destroy_all

@@ -38,7 +38,7 @@ class FriendRequestService < BaseService
 
   def reject_request
     if valid?
-      FriendRequest.in_friendship(@from_user_id, @to_user_id).update_all(status: FriendRequest.statuses[:declined])
+      FriendRequest.in_friendship(@from_user_id, @to_user_id).destroy_all
       Friendship.in_friendship(@from_user_id, @to_user_id).destroy_all
       return true
     else
