@@ -50,6 +50,17 @@ ActiveRecord::Schema.define(version: 20161011092514) do
 
   add_index "channels", ["place_id"], name: "index_channels_on_place_id", using: :btree
 
+  create_table "friend_requests", force: :cascade do |t|
+    t.integer  "from_user_id"
+    t.integer  "to_user_id"
+    t.integer  "status",       default: 0
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
+
+  add_index "friend_requests", ["from_user_id"], name: "index_friend_requests_on_from_user_id", using: :btree
+  add_index "friend_requests", ["to_user_id"], name: "index_friend_requests_on_to_user_id", using: :btree
+
   create_table "friendships", force: :cascade do |t|
     t.integer  "from_user_id"
     t.integer  "to_user_id"
