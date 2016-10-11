@@ -43,8 +43,8 @@ FactoryGirl.define do
     password_confirmation 'password'
     auth_token { Faker::Number.hexadecimal(10) }
     url_image_picture { Faker::Avatar.image }
-    longitude { Faker::Address.latitude }
-    latitude { Faker::Address.longitude }
+    longitude { 106.660172 }
+    latitude { 10.762622 }
     factory :with_photos do
       transient do
         photos_count 5
