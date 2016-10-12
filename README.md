@@ -3,7 +3,10 @@ Locationchat Backend
 
 [![Deploy to Heroku](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 [![Code Climate](https://codeclimate.com/github/GoldenOwlAsia/LocationChat-backend/badges/gpa.svg)](https://codeclimate.com/github/GoldenOwlAsia/LocationChat-backend)
+[![Test Coverage](https://codeclimate.com/repos/57e4e1a1f570543d62006ef6/badges/127a8d0a8f755b484308/coverage.svg)](https://codeclimate.com/repos/57e4e1a1f570543d62006ef6/coverage)
 [![CircleCI](https://circleci.com/gh/GoldenOwlAsia/LocationChat-backend.svg?style=svg)](https://circleci.com/gh/GoldenOwlAsia/LocationChat-backend)
+[![Inline docs](http://inch-ci.org/github/GoldenOwlAsia/LocationChat-backend.svg?branch=master)](http://inch-ci.org/github/GoldenOwlAsia/LocationChat-backend)
+
 
 This application was generated with the [rails_apps_composer](https://github.com/RailsApps/rails_apps_composer) gem
 provided by the [RailsApps Project](http://railsapps.github.io/).
