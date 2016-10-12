@@ -2,20 +2,17 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::User::FriendsController, type: :controller do
-
   context 'when logged in' do
-
     let(:user) { create(:user) }
 
     before { sign_in(user) }
 
     describe 'GET #index' do
-
       context 'when no friend created' do
         before { get :index, auth_token: user.auth_token }
 
         it { expect_status 200 }
-        it { expect_json({success: true, data: [] }) }
+        it { expect_json({ success: true, data: [] }) }
       end
 
       context 'when friend' do
@@ -26,8 +23,8 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
           before { get :index, auth_token: user.auth_token }
 
           it { expect_status 200 }
-          it { expect_json({success: true}) }
-          it { expect_json('data.0', {email: another_user.email}) }
+          it { expect_json({ success: true }) }
+          it { expect_json('data.0', { email: another_user.email }) }
         end
 
         context 'pagination' do
@@ -60,7 +57,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         let!(:another_user) { create :user }
         before { post :send_add_friend, auth_token: user.auth_token, friendship: { to_user_id: another_user.id } }
         it { expect_status 201 }
-        it { expect_json({success: true}) }
+        it { expect_json({ success: true }) }
       end
 
       context 'with existing friendship' do
@@ -70,7 +67,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         context 'with params' do
           let(:params) { { to_user_id: another_user.id } }
           it { expect_status 422 }
-          it { expect_json({success: false, error: "Validation failed: To user already existed"}) }
+          it { expect_json({ success: false, error: "Validation failed: To user already existed" }) }
         end
       end
     end
