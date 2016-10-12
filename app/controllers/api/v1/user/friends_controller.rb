@@ -17,7 +17,7 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   def send_add_friend
     service = FriendRequestService.new current_user.id, status_params[:to_user_id]
     @data = service.send_request
-    @notification_alert = APNS::Notification.new(current_user.device_token, 'Hello iPhone!' )
+    @notification_alert = APNS::Notification.new(current_user.device_token, 'Push notifications are awesome!')
     if @data
       render json: { success: true, data: @data, notification: @notification_alert }, status: 201
     else
