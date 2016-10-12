@@ -11,7 +11,7 @@ RSpec.describe FriendRequestService do
       it "creates 2 records in friend_requests" do
         expect {
           subject.send_request
-        }.to change{FriendRequest.count}.by 2
+        }.to change{ FriendRequest.count }.by 1
       end
     end
 

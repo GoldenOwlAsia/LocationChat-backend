@@ -45,7 +45,6 @@ class User < ActiveRecord::Base
   has_many :photos, dependent: :destroy
   has_one :setting, dependent: :destroy
   has_many :friend_requests, dependent: :destroy
-  has_many :notifications
 
   validates :uid, uniqueness: true
 
