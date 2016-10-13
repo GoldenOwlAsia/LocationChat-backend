@@ -4,7 +4,7 @@ class Api::V1::User::SessionsController < Api::V1::User::BaseController
   skip_before_action :verify_authenticity_token
 
   def create
-    result = Oauth::LoginService.new(Oauth::Authenticator.new(auth_params), User, sessions_params).call
+    result = Oauth::LoginService.new(Oauth::Authenticator.new(sessions_params), User, auth_params).call
     if result.success?
       @user = result.data || User.new
       render json: { success: true, data: UserSerializer.new(@user) }

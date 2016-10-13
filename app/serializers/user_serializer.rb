@@ -37,7 +37,6 @@ class UserSerializer < BaseSerializer
              :email,
              :name,
              :auth_token,
-             :device_token,
              :first_name,
              :last_name,
              :number_phone,

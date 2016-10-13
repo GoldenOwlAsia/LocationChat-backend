@@ -6,7 +6,7 @@ class Oauth::FacebookAuthenticator < Oauth::Authenticator
   end
 
   def call!
-    user = User.find_by provider: :facebook, uid: @auth_params[:uid], device_token: @auth_params[:device_token]
+    user = User.find_by provider: :facebook, uid: @auth_params[:uid]
     OpenStruct.new id: user.uid, email: user.email, provider: :facebook
   rescue Exception => e
     raise Oauth::Authenticator::AuthFailure, e.message
