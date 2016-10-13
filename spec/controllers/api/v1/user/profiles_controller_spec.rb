@@ -79,7 +79,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                                     url_image_picture: 'image.png', 
                                     phone_country_code: '+084', 
                                     home_city: 'Ho Chi Minh City',
-                                    photos: ['abc.jpg', 'xyz.png']} }
+                                    photos: 'abc.jpg, xyz.png'} }
 
         it { expect_status 201 }
         it { expect_json({success: true, data: { email: 'test@example.com', auth_token: User.last.auth_token, device_token: 'abcde',
@@ -132,7 +132,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
       context 'with valid params' do
         let(:params) { { first_name: 'Vinh', last_name: 'Nguyen', number_phone: '12345', email: 'test@example.com', url_image_picture: 'image.png', phone_country_code: '+084', 
                             home_city: 'Ho Chi Minh City', location: 'singapore', latitude: '51.5032520', longitude: '-0.1278990',
-                            photos: ['abc.jpg', 'xyz.png'] } }
+                            photos: 'abc.jpg, xyz.png' } }
 
         it { expect_status 200 }
         it { expect_json success: true }
