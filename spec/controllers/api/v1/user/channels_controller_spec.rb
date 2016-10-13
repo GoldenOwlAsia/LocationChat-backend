@@ -128,14 +128,26 @@ RSpec.describe Api::V1::User::ChannelsController, type: :controller do
 
     describe 'POST #create' do
 
-      before { post :create, channel: params, auth_token: user.auth_token, format: :json }
-
       context 'with valid params' do
         let(:other_user) { create :user }
-        let(:params) { {user_ids: [other_user.id, user.id], twilio_channel_sid: '12345', friendly_name: 'abcde' } }
+        let(:params) { {user_ids: "#{other_user.id},#{user.id}", twilio_channel_sid: '12345', friendly_name: 'abcde' } }
 
-        it { expect_status 201 }
-        it { expect_json({success: true, data: {twilio_channel_sid: '12345', friendly_name: 'abcde' }}) }
+        it "returns successful" do
+          post :create, channel: params, auth_token: user.auth_token, format: :json
+          expect_status 201
+          expect_json({success: true, data: {twilio_channel_sid: '12345', friendly_name: 'abcde' }})
+        end
+
+        it "changes users count by 2" do
+          post :create, channel: params, auth_token: user.auth_token, format: :json
+          expect(Channel.last.users.count).to eq 2
+        end
+
+        it "creates a new channel" do
+          expect {
+            post :create, channel: params, auth_token: user.auth_token, format: :json
+          }.to change{Channel.count}.by 1
+        end
       end
     end
 
