@@ -67,4 +67,16 @@ class User < ActiveRecord::Base
   def name
     [first_name, last_name].compact.join(' ')
   end
+
+  def new_friends
+    self.friendships.each do |friend|
+      invited_date = friend.invited_at
+      @new_friends = self.friends.where("current_sign_in_at: < ?", invited_date)
+    end
+    @new_friends
+  end
+
+  def after_database_authentication
+    self.update_attributes(previous_sign_in_at: self.last_sign_in_at)
+  end
 end

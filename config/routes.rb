@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root to: 'admin/users#index'
+  root to: 'visitors#index'
   devise_for :users
   resources :users
 
