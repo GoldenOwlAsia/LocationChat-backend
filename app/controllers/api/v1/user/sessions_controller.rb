@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 class Api::V1::User::SessionsController < Api::V1::User::BaseController
-
   skip_before_action :authenticate_user_from_token!, only: [:create]
   skip_before_action :verify_authenticity_token
 
   def create
-    result = Oauth::LoginService.new(Oauth::Authenticator.new(sessions_params), User, sessions_params).call
+    result = Oauth::LoginService.new(Oauth::Authenticator.new(auth_params), User, sessions_params).call
     if result.success?
       @user = result.data || User.new
       render json: { success: true, data: UserSerializer.new(@user) }
@@ -28,5 +27,7 @@ class Api::V1::User::SessionsController < Api::V1::User::BaseController
     params.require(:session).permit(:provider, :uid, :device_token, :first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city)
   end
 
-
+  def auth_params
+    params.require(:session).permit(:provider, :uid, :first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city)
+  end
 end
