@@ -9,7 +9,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def check
-    @user = User.find_by provider: check_params[:provider], uid: check_params[:uid], device_token: check_params[:device_token]
+    @user = User.find_by provider: check_params[:provider], uid: check_params[:uid]
     if @user
       render json: { success: true }
     else
