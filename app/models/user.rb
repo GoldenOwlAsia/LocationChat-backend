@@ -56,6 +56,10 @@ class User < ActiveRecord::Base
     false
   end
 
+  def new_friends
+    self.friends.where("friendships.invited_at < ? and friendships.invited_at > ?", self.last_sign_in_at, self.previous_sign_in_at)
+  end
+
   def setting_save
     @setting = setting
     if @setting.nil?
@@ -66,14 +70,6 @@ class User < ActiveRecord::Base
 
   def name
     [first_name, last_name].compact.join(' ')
-  end
-
-  def new_friends
-    self.friendships.each do |friend|
-      invited_date = friend.invited_at
-      @new_friends = self.friends.where("current_sign_in_at: < ?", invited_date)
-    end
-    @new_friends
   end
 
   def after_database_authentication
