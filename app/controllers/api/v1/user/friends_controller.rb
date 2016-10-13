@@ -1,7 +1,7 @@
 class Api::V1::User::FriendsController < Api::V1::User::BaseController
   def index
     @friends = current_user.friends.page(params[:page] || 0).per(params[:limit] || 10)
-    @new_friends = current_user.new_friends
+    @new_friends = User.new_friends(current_user)
     @total_count = @friends.total_count
     render json: { success: true, data: @friends, new_friends: @new_friends, total: @total_count }
   end

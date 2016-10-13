@@ -56,8 +56,8 @@ class User < ActiveRecord::Base
     false
   end
 
-  def new_friends
-    self.friends.where("friendships.invited_at < ? and friendships.invited_at > ?", self.last_sign_in_at, self.previous_sign_in_at)
+  def self.new_friends(user)
+    user.friends.where("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
   end
 
   def setting_save
@@ -73,6 +73,7 @@ class User < ActiveRecord::Base
   end
 
   def after_database_authentication
-    self.update_attributes(previous_sign_in_at: self.last_sign_in_at)
+    user = self
+    user.update_attributes(previous_sign_in_at: user.last_sign_in_at)
   end
 end
