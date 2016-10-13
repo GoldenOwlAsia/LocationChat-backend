@@ -19,7 +19,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
 
   def create
     @user = User.new create_profile_params.except(:photos)
-    create_profile_params[:photos].each do |photo|
+    create_profile_params[:photos].split(',').map(&:strip).each do |photo|
       @user.photos.build url: photo
     end if create_profile_params[:photos].present?
     if @user.save
@@ -32,7 +32,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   def update
     @user = current_user
     @user.attributes = update_profile_params.except :photos
-    update_profile_params[:photos].each do |photo|
+    update_profile_params[:photos].split(',').map(&:strip).each do |photo|
       @user.photos.build url: photo
     end if update_profile_params[:photos].present?
     if @user.save
@@ -53,7 +53,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def create_profile_params
-    params.require(:profile).permit(:provider, :uid, :device_token, :first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city, :location, :latitude, :longitude, photos: [])
+    params.require(:profile).permit(:provider, :uid, :device_token, :first_name, :last_name, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city, :location, :latitude, :longitude, :photos)
   end
 
   def update_profile_params

@@ -30,7 +30,8 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   end
 
   def create
-    service = Chat::ChannelService.new create_params[:user_ids], create_params
+    user_ids = create_params[:user_ids].split(',').map(&:strip).map(&:to_i)
+    service = Chat::ChannelService.new user_ids, create_params
     channel = service.call
     if channel
       render json: { success: true, data: channel }, status: 201
@@ -66,7 +67,7 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   end
 
   def create_params
-    params.require(:channel).permit(:twilio_channel_sid, :friendly_name, user_ids: [])
+    params.require(:channel).permit(:twilio_channel_sid, :friendly_name, :user_ids)
   end
 
   def update_params

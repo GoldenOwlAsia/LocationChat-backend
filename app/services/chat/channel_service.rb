@@ -15,9 +15,11 @@ module Chat
         users = User.where(id: @user_ids).map(&:id)
         channel = Channel.new @params
         ActiveRecord::Base.transaction do
+          channel_users = []
           users.each do |id|
-            channel.channel_users << ChannelUser.new(user_id: id)
+            channel_users << ChannelUser.new(user_id: id)
           end
+          channel.channel_users = channel_users
           channel.save!
         end
         return channel
