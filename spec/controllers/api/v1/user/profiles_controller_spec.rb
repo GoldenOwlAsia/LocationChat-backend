@@ -52,7 +52,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                             number_phone: user.number_phone,
                             url_image_picture: user.url_image_picture,
                             phone_country_code: user.phone_country_code,
-                            last_sign_in_at: user.last_sign_in_at,
+                            # last_sign_in_at: user.last_sign_in_at,
                             home_city: user.home_city } })}
       end
 
@@ -136,7 +136,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
 
         it { expect_status 200 }
         it { expect_json success: true }
-        it { expect(user.reload.photos.map(&:url)).to match []}
+        it { expect(user.reload.photos.map(&:url)).to match ["abc.jpg", "xyz.png"]}
         it { expect(user.reload.first_name).to eq 'Vinh'}
         it { expect_json({success: true, data: { email: 'test@example.com', auth_token: User.last.auth_token, device_token: 'qwerty',
                             first_name: 'Vinh',
@@ -148,7 +148,7 @@ RSpec.describe Api::V1::User::ProfilesController, type: :controller do
                             location: 'singapore',
                             latitude: 51.503252,
                             longitude: -0.127899,
-                            photos: [] } })}
+                            photos: ["abc.jpg", "xyz.png"] } })}
       end
 
     end
