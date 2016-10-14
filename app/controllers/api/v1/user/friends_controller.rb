@@ -4,7 +4,7 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     @new_friends = User.new_friends(current_user)
     @pending_friend = User.friends_pending(current_user)
     @total_count = current_user.friends.page(params[:page] || 0).per(params[:limit] || 10).total_count
-    render json: { success: true, old_friends: @old_friends, new_friends: @new_friends, pending_friend: @pending_friend, total: @total_count }
+    render json: { success: true, data: { old_friends: @old_friends, new_friends: @new_friends, pending_friend: @pending_friend }, total: @total_count }
   end
 
   def destroy

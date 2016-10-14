@@ -62,10 +62,11 @@ class User < ActiveRecord::Base
     end
 
     def friends_pending(user)
+      @friends_pending = []
       user.friend_requests.each do |pending_f|
-        @pending_friend = pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
+        @friends_pending << pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
       end
-      @pending_friend
+      @friends_pending
     end
   end
 

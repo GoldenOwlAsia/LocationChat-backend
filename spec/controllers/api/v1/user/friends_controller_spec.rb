@@ -12,7 +12,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         before { get :index, auth_token: user.auth_token }
 
         it { expect_status 200 }
-        it { expect_json({ success: true, old_friends: [] }) }
+        it { expect_json({ success: true, data: { old_friends: [], new_friends: [], pending_friend: [] } }) }
       end
 
       context 'when friend' do
