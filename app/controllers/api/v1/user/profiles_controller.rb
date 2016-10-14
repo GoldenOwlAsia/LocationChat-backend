@@ -1,6 +1,6 @@
 class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   skip_before_action :authenticate_user_from_token!, only: [:check, :create]
-  before_action :find_user, only: [:show]
+  before_action :find_user, :update_last_sign_in_at, only: [:show]
   def index
   end
 
@@ -50,6 +50,13 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
 
   def check_params
     params.require(:profile).permit(:provider, :uid, :device_token)
+  end
+
+  def update_last_sign_in_at
+    if user_signed_in? && !session[:logged_signin]
+      sign_in(current_user, force: true)
+      session[:logged_signin] = true
+    end
   end
 
   def create_profile_params
