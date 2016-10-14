@@ -64,6 +64,6 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def update_profile_params
-    params.require(:profile).permit(:first_name, :last_name, :device_token, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city, :location, :latitude, :longitude, photos: [])
+    params.require(:profile).permit(:first_name, :last_name, :device_token, :number_phone, :email, :url_image_picture, :phone_country_code, :home_city, :location, :latitude, :longitude, :photos)
   end
 end
