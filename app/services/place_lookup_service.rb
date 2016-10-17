@@ -13,9 +13,11 @@ class PlaceLookupService < BaseService
     places.each do |p|
       puts p.inspect
       if p.valid?
-        p.save!
-        Channel.create! place: p, public: true
-        puts "Place #{p.name} saved."
+        unless Place.exists? p.place_id
+          p.save!
+          Channel.create! place: p, public: true
+          puts "Place #{p.name} saved."
+        end
       end
     end
   end
@@ -31,7 +33,7 @@ class PlaceLookupService < BaseService
       puts spot.inspect
       # puts "Spot vicinity #{spot.vicinity}"
       photo_url = spot.photos.present? ? spot.photos[0].fetch_url(100) : spot.icon
-      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat, photo_url: photo_url, address: spot.vicinity
+      Place.new name: spot.name, longitude: spot.lng, latitude: spot.lat, photo_url: photo_url, address: spot.vicinity, place_id: spot.reference
     end
   end
 end
