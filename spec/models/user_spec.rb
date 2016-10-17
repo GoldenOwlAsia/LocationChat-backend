@@ -38,10 +38,20 @@ RSpec.describe User, type: :model do
   let(:user) { create(:user) }
   it { expect(user.valid?).to eq true }
   it { expect(user.name).to eq "#{user.first_name} #{user.last_name}"}
-  describe 'initial create' do
+  describe 'Initial create' do
     it 'should have setting' do
       user.save
       expect(user.reload.setting).to_not be_nil
     end
+  end
+
+  context "Associations" do
+    it { should have_many(:channel_users) }
+    it { should have_many(:channels).through(:channel_users) }
+    it { should have_many(:friendships).class_name('Friendship') }
+    it { should have_many(:friends).through(:friendships) }
+    it { should have_many(:photos) }
+    it { should have_one(:setting) }
+    it { should have_many(:friend_requests) }
   end
 end
