@@ -11,13 +11,13 @@ class TwilioAuthService < BaseService
   def call
     validate
     token = generate_token
-    update_service_settings token
+    update_service_settings
     token
   end
 
   private
 
-  def update_service_settings(token)
+  def update_service_settings
     ip_messaging_client = Twilio::REST::IpMessagingClient.new(Rails.application.secrets.twilio_account_sid, Rails.application.secrets.twilio_auth_token)
     service = ip_messaging_client.services.get Rails.application.secrets.twilio_service_sid
     service.update readStatusEnabled: true, reachabilityEnabled: true if service
