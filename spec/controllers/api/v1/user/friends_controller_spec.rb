@@ -12,7 +12,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         before { get :index, auth_token: user.auth_token }
 
         it { expect_status 200 }
-        it { expect_json({ success: true, data: [] }) }
+        it { expect_json({ success: true, data: { old_friends: [], new_friends: [], pending_friend: [] } }) }
       end
 
       context 'when friend' do
@@ -24,7 +24,6 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
 
           it { expect_status 200 }
           it { expect_json({ success: true }) }
-          it { expect_json('data.0', { email: another_user.email }) }
         end
 
         context 'pagination' do
@@ -33,15 +32,6 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
             users.each do |u|
               create :friendship, from_user: user, to_user: u
             end
-          end
-          it "return correct number of items" do
-            get :index, auth_token: user.auth_token, page: 0, limit: 2
-            expect_json_sizes(data: 2)
-          end
-
-          it "return default number of items" do
-            get :index, auth_token: user.auth_token, page: 0
-            expect_json_sizes(data: 10)
           end
 
           it "return correct total" do
@@ -77,7 +67,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         let!(:another_user) { create :user }
         before { post :accept_add_friend, auth_token: user.auth_token, friendship: { to_user_id: another_user.id } }
         it { expect_status 201 }
-        it { expect_json({success: true}) }
+        it { expect_json({ success: true }) }
       end
 
       context 'with existing friendship' do
@@ -87,7 +77,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         context 'with params' do
           let(:params) { { to_user_id: another_user.id } }
           it { expect_status 422 }
-          it { expect_json({success: false, error: "Validation failed: To user already existed"}) }
+          it { expect_json({ success: false, error: "Validation failed: To user already existed" }) }
         end
       end
     end
@@ -97,7 +87,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         let!(:another_user) { create :user }
         before { post :reject_add_friend, auth_token: user.auth_token, friendship: { to_user_id: another_user.id } }
         it { expect_status 201 }
-        it { expect_json({success: true}) }
+        it { expect_json({ success: true }) }
       end
     end
   end

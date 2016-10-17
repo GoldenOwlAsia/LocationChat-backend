@@ -12,6 +12,7 @@ class FriendRequestService < BaseService
   def send_request
     if valid?
       service = FriendRequest.create! from_user_id: @from_user_id, to_user_id: @to_user_id, status: FriendRequest.statuses[:pending]
+      FriendRequest.create! from_user_id: @to_user_id, to_user_id: @from_user_id, status: FriendRequest.statuses[:pending]
       return service
     else
       return false

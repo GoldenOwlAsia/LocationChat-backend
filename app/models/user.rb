@@ -44,13 +44,41 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
   has_one :setting, dependent: :destroy
-  has_many :friend_requests, dependent: :destroy
+  has_many :friend_requests, foreign_key: 'from_user_id', dependent: :destroy
 
   validates :uid, uniqueness: true
 
   accepts_nested_attributes_for :photos
   accepts_nested_attributes_for :channel_users
   after_create :setting_save
+
+  class << self
+    def new_friends(user)
+      user.friends.where("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
+    end
+
+    def old_friends(user)
+      if User.new_friends(user).present?
+        user.friends.where.not("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
+      else
+        user.friends
+      end
+    end
+
+    def friends_pending(user)
+      @friends_pending = []
+      user.friend_requests.each do |pending_f|
+        @friends_pending << pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
+      end
+      @friends_pending
+    end
+
+    def list_photos(user)
+      ActiveRecord::Base.transaction do
+        user.photos.destroy_all if user.photos.present?
+      end
+    end
+  end
 
   def password_required?
     false
@@ -66,5 +94,10 @@ class User < ActiveRecord::Base
 
   def name
     [first_name, last_name].compact.join(' ')
+  end
+
+  def after_database_authentication
+    user = self
+    user.update_attributes(previous_sign_in_at: user.last_sign_in_at)
   end
 end

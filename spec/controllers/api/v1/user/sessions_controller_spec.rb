@@ -2,12 +2,12 @@
 require 'rails_helper'
 
 RSpec.describe Api::V1::User::SessionsController, type: :controller do
-  let!(:user) { create(:user, uid: '12345', device_token: 'qwerty', first_name: 'Vinh', 
+  let!(:user) { create(:user, uid: '12345', device_token: 'qwerty', first_name: 'Vinh',
                             last_name: 'Nguyen',
-                            number_phone: '0964153741', 
-                            email: 'nguyenhuuvinh2001@gmail.com', 
-                            url_image_picture: 'image.png', 
-                            phone_country_code: '+084', 
+                            number_phone: '0964153741',
+                            email: 'nguyenhuuvinh2001@gmail.com',
+                            url_image_picture: 'image.png',
+                            phone_country_code: '+084',
                             home_city: 'Ho Chi Minh City') }
 
   describe 'POST #create' do
@@ -33,12 +33,6 @@ RSpec.describe Api::V1::User::SessionsController, type: :controller do
       it { expect_json({success: false, error: 'invalid credentials'})}
     end
 
-    context 'with invalid device token' do
-      let(:params) { { provider: :facebook, uid: '12345', device_token: 'qwerty123' } }
-
-      it { expect_status(401) }
-      it { expect_json({success: false, error: 'invalid credentials'})}
-    end
   end
 
   describe 'DELETE #destroy' do
