@@ -9,7 +9,7 @@ class PlaceLookupService < BaseService
   def call
     spots = @client.spots(@lat, @lng, radius: Constants::PLACES_RADIUS)
     places = parse_spots spots
-    
+
     places.each do |p|
       puts p.inspect
       if p.valid?
