@@ -13,14 +13,15 @@ puts 'CREATED ADMIN USER: ' << user.email
 # Environment variables (ENV['...']) can be set in the file config/application.yml.
 # See http://railsapps.github.io/rails-environment-variables.html
 
-
 users = FactoryGirl.create_list :user, 10
 
-
 users.each do |user|
+  5.times do
+    FactoryGirl.create(:photo, user: user)
+  end
   c = FactoryGirl.create :channel
   c.channel_users.create user: user
-  c.channel_users.create user_id: users.select {|x| x.id != user.id}.sample
+  c.channel_users.create user_id: users.select { |x| x.id != user.id }.sample
 end
 
 friendships = []
