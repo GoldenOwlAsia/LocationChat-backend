@@ -58,7 +58,11 @@ class User < ActiveRecord::Base
     end
 
     def old_friends(user)
-      user.friends.where.not("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
+      if User.new_friends(user).present?
+        user.friends.where.not("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
+      else
+        user.friends
+      end
     end
 
     def friends_pending(user)

@@ -12,6 +12,6 @@
 FactoryGirl.define do
   factory :photo do
     url { Faker::Avatar.image }
-    user nil
+    user
   end
 end
