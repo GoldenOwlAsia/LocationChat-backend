@@ -168,11 +168,6 @@ GEM
       rails (>= 3.0)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
-    gon (6.1.0)
-      actionpack (>= 3.0)
-      json
-      multi_json
-      request_store (>= 1.0)
     google_places (0.32.0)
       httparty (~> 0.13.1)
     guard (2.14.0)
@@ -481,7 +476,6 @@ DEPENDENCIES
   figaro
   font-awesome-rails
   geokit-rails
-  gon (~> 6.1)
   google_places
   guard-bundler
   guard-rails
