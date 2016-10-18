@@ -5,7 +5,7 @@ class Api::V1::TransactionsController < Api::V1::BaseController
   end
 
   def create
-    @result = Braintree::Transaction.sale(amount: "10.00",
+    @result = Braintree::Transaction.sale(amount: params[:amount],
                                           payment_method_nonce: params[:payment_method_nonce])
     if @result.success?
       render json: { success: true }, status: 201
