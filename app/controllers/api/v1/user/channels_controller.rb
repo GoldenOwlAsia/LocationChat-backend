@@ -6,7 +6,9 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
     channels = service.call
     if channels.present?
       if params[:type] == Constants::ChannelTypes::GROUPS
-        data = { favorite: serialize(channels[:favorite], current_user), within_radius: serialize(channels[:within_radius], current_user), outside_radius: serialize(channels[:outside_radius], current_user) }
+        data = { favorite: serialize(channels[:favorite], current_user),
+                    within_radius: serialize(channels[:within_radius], current_user),
+                    outside_radius: serialize(channels[:outside_radius], current_user) }
       else
         data = serialize(channels, current_user)
       end
