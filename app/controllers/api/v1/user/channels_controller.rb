@@ -3,9 +3,14 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
 
   def index
     service = ChannelService.new current_user, params[:type]
-    @channels = service.call
-    if @channels.present?
-      render json: { success: true, data: @channels.map { |x| ChannelSerializer.new(x, current_user) } }
+    channels = service.call
+    if channels.present?
+      if params[:type] == Constants::ChannelTypes::GROUPS
+        data = { favorite: serialize(channels[:favorite], current_user), within_radius: serialize(channels[:within_radius], current_user), outside_radius: serialize(channels[:outside_radius], current_user) }
+      else
+        data = serialize(channels, current_user)
+      end
+      render json: { success: true, data: data }
     else
       render json: { success: true, data: [] }
     end
@@ -72,5 +77,9 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
 
   def update_params
     params.require(:channel).permit(:twilio_channel_sid, :friendly_name)
+  end
+
+  def serialize(arr, user)
+    arr.map { |x| ChannelSerializer.new(x, user) }
   end
 end

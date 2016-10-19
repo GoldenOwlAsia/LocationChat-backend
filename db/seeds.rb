@@ -20,8 +20,8 @@ users.each do |user|
     FactoryGirl.create(:photo, user: user)
   end
   c = FactoryGirl.create :channel
-  c.channel_users.create user: user
-  c.channel_users.create user_id: users.select { |x| x.id != user.id }.sample
+  FactoryGirl.create :channel_user, user: user, channel: c
+  FactoryGirl.create :channel_user, user: users.select { |x| x.id != user.id }.sample, channel: c
 end
 
 friendships = []

@@ -8,6 +8,7 @@ module Constants
   module ChannelTypes
     DIRECTORY = 'directory'
     DIRECT = 'direct'
+    GROUPS = 'group'
     ALL = 'all'
   end
 end
