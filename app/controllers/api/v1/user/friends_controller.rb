@@ -48,9 +48,10 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
 
   def send_message
     @to_user = User.find status_params[:to_user_id]
-    @alert_msg = "#{current_user.name}: #{status_params[:message]}"
-    APNS.send_notification(@to_user.device_token, alert: @alert_msg, other: { user_name: current_user.name, url: current_user.url_image_picture, id: current_user.id, msg: status_params[:message] })
-    if current_user
+    @data = current_user
+    @alert_msg = "#{@data.name}: #{status_params[:message]}"
+    APNS.send_notification(@to_user.device_token, alert: @alert_msg, other: { user_name: @data.name, url: @data.url_image_picture, id: @data.id, msg: status_params[:message] })
+    if @data
       render json: { success: true }, status: 201
     else
       render json: { success: false }, status: 422
