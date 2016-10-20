@@ -20,8 +20,8 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     service = FriendRequestService.new current_user.id, status_params[:to_user_id]
     @data = service.send_request
     @to_user = User.find status_params[:to_user_id]
-    APNS.send_notification(@to_user.device_token, alert: "#{current_user.name} has sent you a friend request.", sound: "default", badge: 1)
     if @data
+      APNS.send_notification(@to_user.device_token, alert: "#{current_user.name} has sent you a friend request.", sound: "default", badge: 1)
       render json: { success: true, data: @data }, status: 201
     else
       render json: { success: false, error: service.last_error_message }, status: 422

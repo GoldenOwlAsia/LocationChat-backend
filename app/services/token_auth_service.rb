@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 class TokenAuthService < BaseService
-
   validates :resource, presence: true
   validates :auth_token, presence: true
   validate :token_validity, if: -> { resource.present? && auth_token.present? }
