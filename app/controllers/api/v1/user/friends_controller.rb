@@ -46,10 +46,21 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     end
   end
 
+  def send_message
+    @to_user = User.find status_params[:to_user_id]
+    @alert_msg = "#{current_user.name}: #{status_params[:message]}"
+    APNS.send_notification(@to_user.device_token, alert: @alert_msg, other: { user_name: current_user.name, url: current_user.url_image_picture, id: current_user.id, msg: status_params[:message] })
+    if current_user
+      render json: { success: true }, status: 201
+    else
+      render json: { success: false }, status: 422
+    end
+  end
+
   private
 
   def status_params
-    params.require(:friendship).permit(:to_user_id)
+    params.require(:friendship).permit(:to_user_id, :message)
   end
 
   def destroy_params
