@@ -10,6 +10,7 @@
 #  updated_at :datetime         not null
 #  photo_url  :string
 #  address    :string
+#  place_id   :string
 #
 
 require 'rails_helper'
