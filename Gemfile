@@ -31,6 +31,8 @@ gem 'simple_form'
 gem 'slim-rails'
 gem 'unicorn'
 gem 'unicorn-rails'
+gem 'sucker_punch'
+
 group :development do
   gem 'annotate'
   gem 'better_errors'

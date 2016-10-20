@@ -2,6 +2,9 @@ class Api::V1::User::ChannelsController < Api::V1::User::BaseController
   before_action :find_channel, only: [:update, :destroy, :show, :check_favorite, :uncheck_favorite]
 
   def index
+    if params[:type] == Constants::ChannelTypes::DIRECTORY
+      UpdatePlacesJob.perform_later current_user.latitude, current_user.longitude
+    end
     service = ChannelService.new current_user, params[:type]
     channels = service.call
     if channels.present?
