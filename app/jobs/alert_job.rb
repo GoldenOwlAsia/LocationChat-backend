@@ -1,4 +1,4 @@
-class AlertJob < ActiveJob::Base
+class AlertJob < ApplicationJob
   def perform(*data)
     @from_user = User.find data[0]
     @to_user = User.find data[1]

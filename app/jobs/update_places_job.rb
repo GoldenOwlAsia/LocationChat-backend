@@ -1,4 +1,4 @@
-class UpdatePlacesJob < ActiveJob::Base
+class UpdatePlacesJob < ApplicationJob
   queue_as :default
 
   def perform(lat, lng)
