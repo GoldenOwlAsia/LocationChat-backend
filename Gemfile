@@ -31,7 +31,7 @@ gem 'simple_form'
 gem 'slim-rails'
 gem 'unicorn'
 gem 'unicorn-rails'
-gem 'sucker_punch'
+gem 'sucker_punch', '~> 2.0'
 
 group :development do
   gem 'annotate'

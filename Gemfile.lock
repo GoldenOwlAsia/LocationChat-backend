@@ -510,7 +510,7 @@ DEPENDENCIES
   slim-rails
   spring
   spring-commands-rspec
-  sucker_punch
+  sucker_punch (~> 2.0)
   twilio-ruby (~> 4.11.1)
   uglifier (>= 1.3.0)
   unicorn
