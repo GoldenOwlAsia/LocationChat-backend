@@ -20,8 +20,8 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     service = FriendRequestService.new current_user.id, status_params[:to_user_id]
     @data = service.send_request
     @to_user = User.find status_params[:to_user_id]
-    APNS.send_notification(@to_user.device_token, alert: "#{current_user.name} has sent you a friend request.", sound: "default", badge: 1)
     if @data
+      APNS.send_notification(@to_user.device_token, alert: "#{current_user.name} has sent you a friend request.", sound: "default", badge: 1)
       render json: { success: true, data: @data }, status: 201
     else
       render json: { success: false, error: service.last_error_message }, status: 422
@@ -46,10 +46,19 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
     end
   end
 
+  def send_message
+    AlertJob.perform_later(current_user.id, status_params[:to_user_id], status_params[:message], status_params[:sid])
+    if current_user
+      render json: { success: true }, status: 201
+    else
+      render json: { success: false }, status: 422
+    end
+  end
+
   private
 
   def status_params
-    params.require(:friendship).permit(:to_user_id)
+    params.require(:friendship).permit(:to_user_id, :message, :sid)
   end
 
   def destroy_params
