@@ -47,7 +47,7 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   end
 
   def send_message
-    AlertJob.perform_now(current_user.id, status_params[:to_user_id], status_params[:message], status_params[:sid])
+    AlertJob.perform_later(current_user.id, status_params[:to_user_id], status_params[:message], status_params[:sid])
     if current_user
       render json: { success: true }, status: 201
     else
