@@ -28,7 +28,7 @@ class ChannelService
   end
 
   def directory_channels
-    Channel.publics.within_radius(@user.latitude, @user.longitude)
+    Channel.includes(:place, :users).publics.within_radius(@user.latitude, @user.longitude)
   end
 
   def direct_channels
