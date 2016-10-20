@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-
   ActiveAdmin.routes(self)
   namespace :api do
   namespace :v1 do
@@ -19,11 +18,6 @@ Rails.application.routes.draw do
 
   namespace :api do
   namespace :v1 do
-    resources :transactions do
-      collection do
-        get :client_token
-      end
-    end
     namespace :user do
       get 'friends/destroy'
       end
@@ -36,7 +30,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
-
       namespace :admin do
         resources :users, only: [:index, :show, :create, :update] do
           member do
@@ -45,6 +38,7 @@ Rails.application.routes.draw do
           end
         end
       end
+
       namespace :user do
         resource :oauth, only: [:create]
         resources :profiles do
