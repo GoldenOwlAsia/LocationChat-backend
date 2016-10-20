@@ -23,7 +23,7 @@ class ChannelService
     channels = @user.channels
     favorite_channels = @user.favorite_channels.to_a
     within_radius = channels.within_radius(@user.latitude, @user.longitude).to_a - favorite_channels
-    outside_radius = channels - favorite_channels - within_radius
+    outside_radius = channels - favorite_channels - within_radius - channels.privates
     { favorite: favorite_channels, within_radius: within_radius, outside_radius: outside_radius }
   end
 
