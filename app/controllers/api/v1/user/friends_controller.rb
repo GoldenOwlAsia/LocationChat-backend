@@ -47,7 +47,10 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   end
 
   def send_message
-    AlertJob.perform_later(current_user.id, status_params[:to_user_id], status_params[:message], status_params[:sid])
+    ids = status_params[:to_user_ids].split(',').map(&:strip)
+    ids.each do |id|
+      AlertJob.perform_later(current_user.id, id, status_params[:message], status_params[:sid])
+    end
     if current_user
       render json: { success: true }, status: 201
     else
@@ -58,7 +61,7 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   private
 
   def status_params
-    params.require(:friendship).permit(:to_user_id, :message, :sid)
+    params.require(:friendship).permit(:to_user_ids, :message, :sid)
   end
 
   def destroy_params
