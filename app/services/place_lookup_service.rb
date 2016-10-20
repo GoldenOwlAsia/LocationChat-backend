@@ -7,7 +7,7 @@ class PlaceLookupService < BaseService
   end
 
   def call
-    spots = @client.spots(@lat, @lng, radius: Constants::PLACES_RADIUS)
+    spots = @client.spots @lat, @lng, rankby: Constants::GOOGLE_PLACES_RANKBY, types: Constants::GOOGLE_PLACES_TYPES
     places = parse_spots spots
 
     places.each do |p|

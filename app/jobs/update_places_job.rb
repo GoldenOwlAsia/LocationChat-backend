@@ -3,6 +3,6 @@ class UpdatePlacesJob < ActiveJob::Base
 
   def perform(lat, lng)
     puts "Execute job: UpdatePlacesJob #{lat} #{lng}"
-    PlaceLookupService.new lat, lng
+    PlaceLookupService.new(lat, lng).call
   end
 end

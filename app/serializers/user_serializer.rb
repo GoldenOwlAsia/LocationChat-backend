@@ -30,6 +30,7 @@
 #  location               :string
 #  latitude               :float
 #  longitude              :float
+#  previous_sign_in_at    :datetime
 #
 
 class UserSerializer < BaseSerializer

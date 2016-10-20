@@ -29,6 +29,7 @@
 #  location               :string
 #  latitude               :float
 #  longitude              :float
+#  previous_sign_in_at    :datetime
 #
 
 require 'rails_helper'

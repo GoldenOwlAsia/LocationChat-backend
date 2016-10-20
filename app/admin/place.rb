@@ -19,6 +19,7 @@ index do
   column :name
   column :longitude
   column :latitude
+  column :place_id
   column :address
   column :photo do |p|
     raw "<img src='#{p.photo_url}'/>"
