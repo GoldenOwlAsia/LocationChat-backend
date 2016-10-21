@@ -19,7 +19,6 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         context 'owned friend' do
           let!(:another_user) { create :user }
           let!(:friendship) { create :friendship, from_user: user, to_user: another_user }
-
           before { get :index, auth_token: user.auth_token }
 
           it { expect_status 200 }
