@@ -35,7 +35,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   def update
     @user = current_user
     @user.attributes = update_profile_params.except :photos
-    User.list_photos(current_user)
+    current_user.list_photos
     update_profile_params[:photos].split(',').map(&:strip).each do |photo|
       @user.photos.build url: photo
     end if update_profile_params[:photos].present?
