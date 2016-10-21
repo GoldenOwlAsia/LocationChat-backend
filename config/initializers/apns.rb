@@ -1,5 +1,7 @@
 # APNS.host = "gateway.push.apple.com"
 APNS.host = ENV["APNS_HOST"]
+
+APNS.port = 2195
 # gateway.sandbox.push.apple.com is default
 # Path to your development.pem file
 APNS.pem = File.join(Rails.root, "development.pem")
