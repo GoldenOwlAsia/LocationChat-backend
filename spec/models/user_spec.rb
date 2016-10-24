@@ -120,6 +120,21 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "list photo" do
+    it "can remove photo" do
+      user2 = create :user
+      photo = create :photo, user: user2
+      result = user.photos.destroy_all
+      expect(result).to eq []
+    end
+
+    it "can not remove photo" do
+      photo = create :photo, user: user
+      result = user.photos.destroy_all
+      expect(result).to eq [photo]
+    end
+  end
+
   context "Associations" do
     it { should have_many(:channel_users) }
     it { should have_many(:channels).through(:channel_users) }

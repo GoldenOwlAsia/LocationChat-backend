@@ -44,7 +44,6 @@ class User < ActiveRecord::Base
 
   has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
   has_many :friends, through: :friendships, source: :to_user
-  has_many :new_friends, -> { joins(:frienships).where("friendships.invited_at < users.last_sign_in_at AND friendships.invited_at > users.previous_sign_in_at") }, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
   has_one :setting, dependent: :destroy
   has_many :friend_requests, foreign_key: 'from_user_id', dependent: :destroy
