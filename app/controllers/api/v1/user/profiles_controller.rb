@@ -5,7 +5,10 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   end
 
   def show
-    render json: { success: true, data: UserSerializer.new(@user) }
+    @c_user.friend_requests.map(&:to_user).each do |to_user|
+      @status = to_user.friend_requests.map(&:status).first if to_user.id == @user.id
+    end
+    render json: { success: true, data: UserSerializer.new(@user), status: @status }
   end
 
   def check
@@ -32,7 +35,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   def update
     @user = current_user
     @user.attributes = update_profile_params.except :photos
-    User.list_photos(current_user)
+    current_user.list_photos
     update_profile_params[:photos].split(',').map(&:strip).each do |photo|
       @user.photos.build url: photo
     end if update_profile_params[:photos].present?
@@ -46,6 +49,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   private
 
   def find_user
+    @c_user = current_user
     @user = User.find params[:id]
   end
 

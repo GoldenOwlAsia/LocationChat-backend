@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
   has_many :channels, through: :channel_users
   has_many :favorite_channels, -> { where('channel_users.is_favorite = ?', true) }, through: :channel_users, source: :channel
   has_many :channel_users, dependent: :destroy
-
+  has_many :new_friends, -> (user) { where("friendships.invited_at < ? AND friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at) }, through: :friendships, source: :to_user
+  has_many :friends_old, -> (user) { where.not("friendships.invited_at < ? AND friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at) }, through: :friendships, source: :to_user
   has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
   has_many :friends, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
@@ -54,31 +55,28 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :channel_users
   after_create :setting_save
 
-  class << self
-    def new_friends(user)
-      user.friends.where("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
+  def old_friends
+    user = self
+    if user.new_friends.present?
+      user.friends_old
+    else
+      user.friends
     end
+  end
 
-    def old_friends(user)
-      if User.new_friends(user).present?
-        user.friends.where.not("friendships.invited_at < ? and friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at)
-      else
-        user.friends
-      end
+  def friends_pending
+    user = self
+    @friends_pending = []
+    user.friend_requests.each do |pending_f|
+      @friends_pending << pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
     end
+    @friends_pending
+  end
 
-    def friends_pending(user)
-      @friends_pending = []
-      user.friend_requests.each do |pending_f|
-        @friends_pending << pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
-      end
-      @friends_pending
-    end
-
-    def list_photos(user)
-      ActiveRecord::Base.transaction do
-        user.photos.destroy_all if user.photos.present?
-      end
+  def list_photos
+    user = self
+    ActiveRecord::Base.transaction do
+      user.photos.destroy_all if user.photos.present?
     end
   end
 

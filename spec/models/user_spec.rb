@@ -37,12 +37,101 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
 
   let(:user) { create(:user) }
+
   it { expect(user.valid?).to eq true }
   it { expect(user.name).to eq "#{user.first_name} #{user.last_name}"}
   describe 'Initial create' do
     it 'should have setting' do
       user.save
       expect(user.reload.setting).to_not be_nil
+    end
+  end
+
+  describe "new friends" do
+    it "returns new friends" do
+      user2 = create :user
+      invited_at = DateTime.now - 3.days
+      Friendship.create! from_user_id: user.id, to_user_id: user2.id, invited_at: invited_at
+      Friendship.create! from_user_id: user2.id, to_user_id: user.id, invited_at: invited_at
+      allow_any_instance_of(User).to receive(:last_sign_in_at).and_return(DateTime.now)
+      allow_any_instance_of(User).to receive(:previous_sign_in_at).and_return(DateTime.now - 1.week)
+      result = user.new_friends
+      expect(result).to eq [user2]
+    end
+
+    it "does not return new friends when friendship was older than previous_sign_in_at" do
+      user2 = create :user
+      previous_sign_in_at = 2.weeks.ago
+      invited_at = 3.weeks.ago
+      Friendship.create! from_user_id: user.id, to_user_id: user2.id, invited_at: invited_at
+      Friendship.create! from_user_id: user2.id, to_user_id: user.id, invited_at: invited_at
+      allow_any_instance_of(User).to receive(:last_sign_in_at).and_return(DateTime.now)
+      allow_any_instance_of(User).to receive(:previous_sign_in_at).and_return(previous_sign_in_at)
+      result = user.new_friends
+      expect(result).to eq []
+    end
+
+    it "does not return new friends when friendship was older than previous_sign_in_at" do
+      user2 = create :user
+      previous_sign_in_at = 2.weeks.ago
+      last_sign_in_at = 2.days.ago
+      invited_at = DateTime.yesterday
+      Friendship.create! from_user_id: user.id, to_user_id: user2.id, invited_at: invited_at
+      Friendship.create! from_user_id: user2.id, to_user_id: user.id, invited_at: invited_at
+      allow_any_instance_of(User).to receive(:last_sign_in_at).and_return(last_sign_in_at)
+      allow_any_instance_of(User).to receive(:previous_sign_in_at).and_return(previous_sign_in_at)
+      result = user.new_friends
+      expect(result).to eq []
+    end
+  end
+
+  describe "old friends" do
+    it "returns old friends" do
+      user2 = create :user
+      invited_at = DateTime.now - 3.days
+      Friendship.create! from_user_id: user.id, to_user_id: user2.id, invited_at: invited_at
+      Friendship.create! from_user_id: user2.id, to_user_id: user.id, invited_at: invited_at
+      allow_any_instance_of(User).to receive(:last_sign_in_at).and_return(DateTime.now)
+      allow_any_instance_of(User).to receive(:previous_sign_in_at).and_return(DateTime.now - 1.day)
+      result = user.old_friends
+      expect(result).to eq [user2]
+    end
+
+    it "does not return old friends when invited was older than previous_sign_in_at" do
+      user2 = create :user
+      previous_sign_in_at = 2.weeks.ago
+      invited_at = 1.weeks.ago
+      Friendship.create! from_user_id: user.id, to_user_id: user2.id, invited_at: invited_at
+      Friendship.create! from_user_id: user2.id, to_user_id: user.id, invited_at: invited_at
+      allow_any_instance_of(User).to receive(:last_sign_in_at).and_return(DateTime.now)
+      allow_any_instance_of(User).to receive(:previous_sign_in_at).and_return(previous_sign_in_at)
+      result = user.old_friends
+      expect(result).to eq []
+    end
+  end
+
+  describe "pending friends" do
+    it "returns pending friends" do
+      user2 = create :user
+      FriendRequest.create! from_user_id: user.id, to_user_id: user2.id, status: FriendRequest.statuses[:pending]
+      FriendRequest.create! from_user_id: user2.id, to_user_id: user.id, status: FriendRequest.statuses[:pending]
+      result = user.friends_pending
+      expect(result).to eq [user2]
+    end
+  end
+
+  describe "list photo" do
+    it "can remove photo" do
+      user2 = create :user
+      photo = create :photo, user: user2
+      result = user.photos.destroy_all
+      expect(result).to eq []
+    end
+
+    it "can not remove photo" do
+      photo = create :photo, user: user
+      result = user.photos.destroy_all
+      expect(result).to eq [photo]
     end
   end
 

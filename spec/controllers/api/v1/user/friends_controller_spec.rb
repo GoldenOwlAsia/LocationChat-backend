@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require 'rails_helper'
+require 'timeout'
 
 RSpec.describe Api::V1::User::FriendsController, type: :controller do
   context 'when logged in' do
@@ -19,7 +20,6 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
         context 'owned friend' do
           let!(:another_user) { create :user }
           let!(:friendship) { create :friendship, from_user: user, to_user: another_user }
-
           before { get :index, auth_token: user.auth_token }
 
           it { expect_status 200 }
@@ -43,6 +43,7 @@ RSpec.describe Api::V1::User::FriendsController, type: :controller do
     end
 
     describe 'POST #send_request_add_friend' do
+      before { allow(APNS).to receive(:send_notification) }
       context 'with no existing friendship' do
         let!(:another_user) { create :user }
         before { post :send_add_friend, auth_token: user.auth_token, friendship: { to_user_id: another_user.id } }

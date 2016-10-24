@@ -1,8 +1,8 @@
 class Api::V1::User::FriendsController < Api::V1::User::BaseController
   def index
-    @old_friends = User.old_friends(current_user).page(params[:page] || 0).per(params[:limit] || 10)
-    @new_friends = User.new_friends(current_user)
-    @pending_friend = User.friends_pending(current_user)
+    @old_friends = current_user.old_friends.page(params[:page] || 0).per(params[:limit] || 10)
+    @new_friends = current_user.new_friends
+    @pending_friend = current_user.friends_pending
     @total_count = current_user.friends.page(params[:page] || 0).per(params[:limit] || 10).total_count
     render json: { success: true, data: { old_friends: @old_friends, new_friends: @new_friends, pending_friend: @pending_friend }, total: @total_count }
   end
@@ -47,9 +47,9 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   end
 
   def send_message
-    ids = status_params[:to_user_ids].split(',').map(&:strip)
+    ids = msg_params[:to_user_ids].split(',').map(&:strip)
     ids.each do |id|
-      AlertJob.perform_later(current_user.id, id, status_params[:message], status_params[:sid])
+      AlertJob.perform_later(current_user.id, id, msg_params[:message], msg_params[:sid])
     end
     if current_user
       render json: { success: true }, status: 201
@@ -61,6 +61,10 @@ class Api::V1::User::FriendsController < Api::V1::User::BaseController
   private
 
   def status_params
+    params.require(:friendship).permit(:to_user_id)
+  end
+
+  def msg_params
     params.require(:friendship).permit(:to_user_ids, :message, :sid)
   end
 
