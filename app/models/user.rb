@@ -41,7 +41,8 @@ class User < ActiveRecord::Base
   has_many :channels, through: :channel_users
   has_many :favorite_channels, -> { where('channel_users.is_favorite = ?', true) }, through: :channel_users, source: :channel
   has_many :channel_users, dependent: :destroy
-
+  has_many :new_friends, -> (user) { where("friendships.invited_at < ? AND friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at) }, through: :friendships, source: :to_user
+  has_many :friends_old, -> (user) { where.not("friendships.invited_at < ? AND friendships.invited_at > ?", user.last_sign_in_at, user.previous_sign_in_at) }, through: :friendships, source: :to_user
   has_many :friendships, foreign_key: 'from_user_id', class_name: 'Friendship'
   has_many :friends, through: :friendships, source: :to_user
   has_many :photos, dependent: :destroy
@@ -54,15 +55,10 @@ class User < ActiveRecord::Base
   accepts_nested_attributes_for :channel_users
   after_create :setting_save
 
-  def new_friends
-    user = self
-    user.friends.where("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
-  end
-
   def old_friends
     user = self
     if user.new_friends.present?
-      user.friends.where.not("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
+      user.friends_old
     else
       user.friends
     end
