@@ -55,28 +55,32 @@ class User < ActiveRecord::Base
   after_create :setting_save
 
   def new_friends
-    self.friends.where("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
+    user = self
+    user.friends.where("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
   end
 
   def old_friends
-    if self.new_friends.present?
-      self.friends.where.not("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
+    user = self
+    if user.new_friends.present?
+      user.friends.where.not("friendships.invited_at < ? AND friendships.invited_at > ?", last_sign_in_at, previous_sign_in_at)
     else
-      self.friends
+      user.friends
     end
   end
 
   def friends_pending
+    user = self
     @friends_pending = []
-    self.friend_requests.each do |pending_f|
+    user.friend_requests.each do |pending_f|
       @friends_pending << pending_f.to_user if pending_f.status == FriendRequest.statuses.keys.first
     end
     @friends_pending
   end
 
   def list_photos
+    user = self
     ActiveRecord::Base.transaction do
-      self.photos.destroy_all if self.photos.present?
+      user.photos.destroy_all if user.photos.present?
     end
   end
 
