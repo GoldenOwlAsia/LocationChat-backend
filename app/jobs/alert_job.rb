@@ -9,10 +9,9 @@ class AlertJob < ApplicationJob
         @to_user.device_token,
         alert: @alert_msg,
         sound: 'default',
-        other: { 
+        other: {
           from_user_id: @from_user.id,
           name: @from_user.name,
-          url: @from_user.url_image_picture,
           sid: data[3]
         }
       )
