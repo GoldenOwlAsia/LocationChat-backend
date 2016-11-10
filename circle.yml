@@ -1,0 +1,18 @@
+## Customize deployment commands
+deployment:
+  staging:
+    branch: master
+    commands:
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push git@heroku.com:devhse-chatbox.git $CIRCLE_SHA1:refs/heads/master
+      - heroku pg:backups capture --app devhse-chatbox
+      - heroku run rake db:migrate --app devhse-chatbox:
+          timeout: 400 # if your deploys take a long time
+  production:
+    branch: master
+    commands:
+      - "[[ ! -s \"$(git rev-parse --git-dir)/shallow\" ]] || git fetch --unshallow"
+      - git push git@heroku.com:devhse-chatbox.git $CIRCLE_SHA1:refs/heads/master
+      - heroku pg:backups capture
+      - heroku run rake db:migrate --app devhse-chatbox:
+          timeout: 400 # if your deploys take a long time
