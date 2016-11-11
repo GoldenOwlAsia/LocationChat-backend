@@ -31,7 +31,7 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
 
   def update
     if current_user != @target_user
-      render json: { success: false, error: "This profile isn't belongs to you" }, status: 200 and return
+      return render json: { success: false, error: "This profile isn't belongs to you" }, status: 200
     end
     current_user.attributes = update_profile_params.except(:photos)
     if update_profile_params[:photos].present?
