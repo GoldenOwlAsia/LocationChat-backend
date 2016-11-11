@@ -35,15 +35,16 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
       return render json: { success: false, error: "This profile isn't belongs to you" }, status: 200
     end
     current_user.attributes = update_profile_params.except(:photos)
-    if update_profile_params[:photos].present?
-      ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction do
+      if update_profile_params[:photos].present?
         current_user.destroy_photos
         update_profile_params[:photos].split(',').each do |photo|
           current_user.photos.build(url: photo.strip)
         end
       end
+      @updated = current_user.save
     end
-    if current_user.save
+    if @updated
       render json: { success: true, data: UserSerializer.new(current_user) }, status: 200
     else
       render json: { success: false, error: current_user.errors.full_messages.last }, status: 422
