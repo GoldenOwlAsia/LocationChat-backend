@@ -120,18 +120,12 @@ RSpec.describe User, type: :model do
     end
   end
 
-  describe "list photo" do
-    it "can remove photo" do
-      user2 = create :user
-      photo = create :photo, user: user2
-      result = user.photos.destroy_all
-      expect(result).to eq []
-    end
+  describe "destroy photos" do
+    let!(:user) { create(:user_with_photos) }
 
-    it "can not remove photo" do
-      photo = create :photo, user: user
-      result = user.photos.destroy_all
-      expect(result).to eq [photo]
+    it 'deletes all photos' do
+      user.destroy_photos
+      expect(user.reload.photos).to be_empty
     end
   end
 
