@@ -47,7 +47,8 @@ FactoryGirl.define do
     location { Faker::Address.city }
     longitude { 106.660172 }
     latitude { 10.762622 }
-    factory :with_photos do
+    
+    factory :user_with_photos do
       transient do
         photos_count 5
       end

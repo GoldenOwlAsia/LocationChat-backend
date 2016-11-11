@@ -73,11 +73,8 @@ class User < ActiveRecord::Base
     @friends_pending
   end
 
-  def list_photos
-    user = self
-    ActiveRecord::Base.transaction do
-      user.photos.destroy_all if user.photos.present?
-    end
+  def destroy_photos
+    photos.destroy_all
   end
 
   def password_required?
