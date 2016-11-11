@@ -36,9 +36,11 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
     end
     current_user.attributes = update_profile_params.except(:photos)
     if update_profile_params[:photos].present?
-      current_user.destroy_photos
-      update_profile_params[:photos].split(',').each do |photo|
-        current_user.photos.build(url: photo.strip)
+      ActiveRecord::Base.transaction do
+        current_user.destroy_photos
+        update_profile_params[:photos].split(',').each do |photo|
+          current_user.photos.build(url: photo.strip)
+        end
       end
     end
     if current_user.save
