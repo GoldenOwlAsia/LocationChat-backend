@@ -1,7 +1,6 @@
 class Api::V1::User::ProfilesController < Api::V1::User::BaseController
   skip_before_action :authenticate_user_from_token!, only: [:check, :create]
   before_action :find_target_user, only: [:show, :update]
-  
   def index
   end
 
@@ -19,9 +18,11 @@ class Api::V1::User::ProfilesController < Api::V1::User::BaseController
 
   def create
     @user = User.new(create_profile_params.except(:photos))
-    create_profile_params[:photos].split(',').each do |photo|
-      @user.photos.build(url: photo.strip)
-    end if create_profile_params[:photos].present?
+    if create_profile_params[:photos].present?
+      create_profile_params[:photos].split(',').each do |photo|
+        @user.photos.build(url: photo.strip)
+      end
+    end
     if @user.save
       render json: { success: true, data: UserSerializer.new(@user.reload) }, status: 201
     else
